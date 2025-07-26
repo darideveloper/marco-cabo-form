@@ -4,6 +4,7 @@ $white: #ffffff
 $gold: #C8B568
 $red: #FF2800
 $gunmetal: #292e38
+$yankesblue: #162137
 
 
 html
@@ -18,10 +19,14 @@ body
 h1, h2, h3, h4, h5, h6, .title, [class~="text"]
   font-family: "Mulish", sans-serif
 
-p, h1, h2, h3, h4, h5, h6
+h1, h2, h3, h4, h5, h6
   margin: 0
   padding: 0
-  color: var($gunmetal)
+  color: $gunmetal
+p
+  margin: 0
+  padding: 0
+  color: $yankesblue
 
 .container
   margin: 0 auto
@@ -38,11 +43,11 @@ p, h1, h2, h3, h4, h5, h6
   background: $white
 
 ::-webkit-scrollbar-thumb
-  background: $gold
+  background: $red
   margin-top: -5px
 
   &:hover
-    background: rgba($gold, 0.8)
+    background: rgba($red, 0.8)
 
 @tailwind base
 @tailwind components

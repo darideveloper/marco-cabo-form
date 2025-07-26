@@ -10,7 +10,8 @@ export default {
         "green": "#86896B",
         "purple": "#94aad2",
         "red" : "#FF2800",
-        "gunmetal": "#292e38"
+        "gunmetal": "#292e38",
+        "yankesblue": "#162137"
       }
     },
   },

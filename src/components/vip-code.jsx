@@ -8,6 +8,7 @@ import Spinner from './spinner'
 
 import { validateVipCode } from '../api/vip-code'
 import VipCodeContext from '../context/vip-code'
+import clsx from 'clsx'
 
 export default function VipCode() {
 

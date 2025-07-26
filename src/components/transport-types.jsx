@@ -1,11 +1,24 @@
 import { useEffect } from "react"
 import PropTypes from 'prop-types'
 import TransportType from "./transport-type"
+import clsx from "clsx"
 
 export default function TransportTypes({handleUpdateType, activeTransportType, transports}) {
 
   return (
-    <section className="transport-types w-2/3 mx-auto max-w-sm flex flex-col items-start justify-center md:flex-row md:w-full md:max-w-none md:gap-20">
+    <section className={clsx("transport-types",
+    "w-2/3",
+    "mx-auto",
+    "max-w-sm",
+    "flex",
+    "flex-col",
+    "items-start",
+    "justify-center", 
+    "md:flex-row", 
+    "md:w-full", 
+    "md:max-w-none", 
+    "md:gap-20",
+    "md:items-center")}>
 
       {transports.map((transport) => (
         <TransportType

@@ -1,6 +1,9 @@
 // react
 import { useState, useEffect } from "react"
 
+// libs
+import clsx from "clsx"
+
 // Components
 import Subtitle from "../components/subtitle"
 import TransportTypes from "../components/transport-types"
@@ -341,7 +344,13 @@ export default function Form() {
           transports={transports}
         />
 
-        <div className="fields w-5/6 mx-auto grid gap-10" style={{ gridTemplateColumns: mediaQuery ? "repeat(1, 1fr)" : activeTransportType == "Arriving,Departing" ? "repeat(3, 1fr)" : "repeat(2, 1fr)" }}>
+        <div className={clsx("fields",
+          "w-5/6",
+          "mx-auto",
+          "grid",
+          "gap-10",
+          "md:grid-cols-1",
+          "md:grid-cols-3")}>
           <Fieldset title='Guest Information'>
             <legend className="title text-xl uppercase mb-3"></legend>
             <Input

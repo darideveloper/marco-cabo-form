@@ -12,7 +12,7 @@ export default function ContactCard ({svgPath, link="", text}) {
       {
         link 
         ? 
-        <a href={link} className='ms-5 text-white text-md hover:text-gold' target='_blank'>{text}</a> 
+        <a href={link} className='ms-5 text-white text-md hover:text-red' target='_blank'>{text}</a> 
         : 
         <p className='ms-5 text-white text-md'>{text}</p>
       }
