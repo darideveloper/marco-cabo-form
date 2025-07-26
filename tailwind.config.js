@@ -9,6 +9,8 @@ export default {
         "gold": "#d0a95d",
         "green": "#86896B",
         "purple": "#94aad2",
+        "red" : "#FF2800",
+        "gunmetal": "#292e38"
       }
     },
   },
