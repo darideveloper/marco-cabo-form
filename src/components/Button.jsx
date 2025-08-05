@@ -10,8 +10,8 @@ const Button = ({
     "px-4 py-2 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2";
 
   const variants = {
-    primary: `${baseClasses} text-white`,
-    outline: `${baseClasses} border-2 bg-transparent`,
+    primary: `${baseClasses} text-white bg-primary hover:bg-primary-600`,
+    outline: `${baseClasses} border-2 bg-transparent border-primary text-primary hover:bg-primary-50`,
   };
 
   const getButtonStyle = () => {
@@ -19,18 +19,14 @@ const Button = ({
       return { backgroundColor: "#9ca3af", color: "white", ...style };
     }
 
-    if (variant === "outline") {
-      return { borderColor: "#FF2800", color: "#FF2800", ...style };
-    }
-
-    return { backgroundColor: "#FF2800", ...style };
+    return { ...style };
   };
 
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`${variants[variant]} ${className} ${disabled ? "cursor-not-allowed opacity-50" : "hover:opacity-90"}`}
+      className={`${variants[variant]} ${className} ${disabled ? "cursor-not-allowed opacity-50 bg-gray-disabled" : ""}`}
       style={getButtonStyle()}
     >
       {children}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ProgressBar from "./components/ProgressBar";
 import Button from "./components/Button";
-import { ChevronLeft, ChevronRight } from "./components/icons";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import useFormData from "./hooks/useFormData";
 
 // Import step components
@@ -106,7 +106,7 @@ const MultiStepForm = () => {
             <Button
               onClick={prevStep}
               disabled={currentStep === 1}
-              variant="outline"
+              variant={currentStep === 1 ? "primary" : "outline"}
             >
               <ChevronLeft className="w-4 h-4" />
               Previous
@@ -122,7 +122,7 @@ const MultiStepForm = () => {
         </div>
 
         <div className="text-center mt-4">
-          <p style={{ color: "#292e38" }}>
+          <p className="text-text-secondary">
             Step {currentStep} of {totalSteps}
           </p>
         </div>

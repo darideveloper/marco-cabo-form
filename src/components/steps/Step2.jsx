@@ -5,10 +5,10 @@ const Step2 = ({ formData, updateFormData }) => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-2" style={{ color: "#162137" }}>
+        <h2 className="text-2xl font-bold mb-2 text-text-primary">
           Select Service Type
         </h2>
-        <p style={{ color: "#292e38" }}>Choose your travel preference</p>
+        <p className="text-text-secondary">Choose your travel preference</p>
       </div>
 
       <RadioGroup
@@ -19,9 +19,9 @@ const Step2 = ({ formData, updateFormData }) => {
           <Label
             key={option}
             htmlFor={option}
-            className={`flex items-center space-x-4 p-4 border-2 rounded-lg cursor-pointer hover:border-[#FF2800] transition-colors ${
+            className={`flex items-center space-x-4 p-4 border-2 rounded-lg cursor-pointer hover:border-primary transition-colors ${
               formData.serviceType === option
-                ? "border-[#FF2800] bg-[#fff5f5]"
+                ? "border-primary bg-primary-50"
                 : "border-gray-200"
             }`}
           >
@@ -31,7 +31,7 @@ const Step2 = ({ formData, updateFormData }) => {
               checked={formData.serviceType === option}
               onChange={(e) => updateFormData("serviceType", e.target.value)}
             />
-            <div className="font-semibold" style={{ color: "#162137" }}>
+            <div className="font-semibold text-text-primary">
               {option}
             </div>
           </Label>

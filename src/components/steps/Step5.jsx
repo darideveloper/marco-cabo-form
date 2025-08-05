@@ -1,4 +1,4 @@
-import { Calendar, Clock } from "../icons";
+import { Calendar, Clock } from "lucide-react";
 import Input from "../Input";
 import Label from "../Label";
 
@@ -6,10 +6,10 @@ const Step5 = ({ formData, updateFormData }) => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-2" style={{ color: "#162137" }}>
+        <h2 className="text-2xl font-bold mb-2 text-text-primary">
           Departure Information
         </h2>
-        <p style={{ color: "#292e38" }}>
+        <p className="text-text-secondary">
           When and where should we pick you up for the return trip?
         </p>
       </div>

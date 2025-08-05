@@ -27,10 +27,10 @@ const Step1 = ({ formData, updateFormData }) => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-2" style={{ color: "#162137" }}>
+        <h2 className="text-2xl font-bold mb-2 text-text-primary">
           Select Your Transport
         </h2>
-        <p style={{ color: "#292e38" }}>
+        <p className="text-text-secondary">
           Choose the vehicle that best fits your needs
         </p>
       </div>
@@ -45,7 +45,7 @@ const Step1 = ({ formData, updateFormData }) => {
             htmlFor={option.id}
             className={`flex items-center space-x-4 p-4 border-2 rounded-lg cursor-pointer transition-colors ${
               formData.transport === option.id
-                ? "border-[#FF2800] border-2 bg-[#FF2800]/8"
+                ? "border-primary border-2 bg-primary-50"
                 : "border-gray-200"
             }
             `}
@@ -56,12 +56,12 @@ const Step1 = ({ formData, updateFormData }) => {
               checked={formData.transport === option.id}
               onChange={(e) => updateFormData("transport", e.target.value)}
             />
-            <option.icon className="w-8 h-8" style={{ color: "#FF2800" }} />
+            <option.icon className="w-8 h-8 text-primary" />
             <div className="flex-1">
-              <div className="font-semibold" style={{ color: "#162137" }}>
+              <div className="font-semibold text-text-primary">
                 {option.name}
               </div>
-              <div className="text-sm" style={{ color: "#292e38" }}>
+              <div className="text-sm text-text-secondary">
                 {option.description}
               </div>
             </div>

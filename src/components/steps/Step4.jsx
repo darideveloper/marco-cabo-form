@@ -1,4 +1,4 @@
-import { MapPin, Calendar, Clock } from "../icons";
+import { MapPin, Calendar, Clock } from "lucide-react";
 import Input from "../Input";
 import Label from "../Label";
 import zoneHotelsPrices from "../../api/zone-hotels-prices";
@@ -101,10 +101,10 @@ const Step4 = ({ formData, updateFormData }) => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-2" style={{ color: "#162137" }}>
+        <h2 className="text-2xl font-bold mb-2 text-text-primary">
           Arrival Information
         </h2>
-        <p style={{ color: "#292e38" }}>
+        <p className="text-text-secondary">
           When and where do you need to be picked up?
         </p>
       </div>
@@ -119,7 +119,7 @@ const Step4 = ({ formData, updateFormData }) => {
             id="arrivalZone"
             value={selectedZone}
             onChange={handleZoneChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value="">Select a zone</option>
             {zoneHotelsPrices.zones.map((zone) => (
@@ -139,7 +139,7 @@ const Step4 = ({ formData, updateFormData }) => {
             id="arrivalHotel"
             value={selectedHotel}
             onChange={handleHotelChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
             disabled={!selectedZone}
           >
             <option value="">Select a hotel</option>
@@ -152,23 +152,23 @@ const Step4 = ({ formData, updateFormData }) => {
         </div>
 
         {priceInfo && (
-          <div className="p-4 bg-[#ff2800]/8 border-2 border-[#ff2800] rounded-md">
+          <div className="p-4 bg-primary-50 border-2 border-primary rounded-md">
             <h4 className="font-semibold mb-2">Price Information:</h4>
             <div className="grid grid-cols-3 gap-2">
               <div
-                className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "Suburban" ? "ring-2 ring-blue-500" : ""}`}
+                className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "Suburban" ? "ring-2 ring-primary" : ""}`}
               >
                 <p className="text-sm text-gray-600">Suburban</p>
                 <p className="font-bold">${priceInfo.suburban}</p>
               </div>
               <div
-                className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "Van" ? "ring-2 ring-blue-500" : ""}`}
+                className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "Van" ? "ring-2 ring-primary" : ""}`}
               >
                 <p className="text-sm text-gray-600">Van</p>
                 <p className="font-bold">${priceInfo.van}</p>
               </div>
               <div
-                className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "Sprinter" ? "ring-2 ring-blue-500" : ""}`}
+                className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "Sprinter" ? "ring-2 ring-primary" : ""}`}
               >
                 <p className="text-sm text-gray-600">Sprinter</p>
                 <p className="font-bold">${priceInfo.sprinter}</p>

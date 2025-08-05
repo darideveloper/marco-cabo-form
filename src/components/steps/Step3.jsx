@@ -7,10 +7,10 @@ const Step3 = ({ formData, updateFormData }) => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-2" style={{ color: "#162137" }}>
+        <h2 className="text-2xl font-bold mb-2 text-text-primary">
           General Information
         </h2>
-        <p style={{ color: "#292e38" }}>Please provide your details</p>
+        <p className="text-text-secondary">Please provide your details</p>
       </div>
 
       <div className="grid gap-4">

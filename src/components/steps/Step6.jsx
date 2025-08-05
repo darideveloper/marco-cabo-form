@@ -4,62 +4,62 @@ const Step6 = ({ formData, onSubmit }) => {
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-2" style={{ color: "#162137" }}>
+        <h2 className="text-2xl font-bold mb-2 text-text-primary">
           Booking Summary
         </h2>
-        <p style={{ color: "#292e38" }}>Review your booking details</p>
+        <p className="text-text-secondary">Review your booking details</p>
       </div>
 
       <div className="bg-gray-50 p-6 rounded-lg space-y-4">
         <div className="grid gap-3">
           <div className="flex justify-between">
-            <span style={{ color: "#292e38" }}>Transport:</span>
-            <span style={{ color: "#162137" }} className="font-semibold">
+            <span className="text-text-secondary">Transport:</span>
+            <span className="text-text-primary font-semibold">
               {formData.transport}
             </span>
           </div>
           <div className="flex justify-between">
-            <span style={{ color: "#292e38" }}>Service:</span>
-            <span style={{ color: "#162137" }} className="font-semibold">
+            <span className="text-text-secondary">Service:</span>
+            <span className="text-text-primary font-semibold">
               {formData.serviceType}
             </span>
           </div>
           <div className="flex justify-between">
-            <span style={{ color: "#292e38" }}>Passenger:</span>
-            <span style={{ color: "#162137" }} className="font-semibold">
+            <span className="text-text-secondary">Passenger:</span>
+            <span className="text-text-primary font-semibold">
               {formData.name} {formData.lastName}
             </span>
           </div>
           <div className="flex justify-between">
-            <span style={{ color: "#292e38" }}>Passengers:</span>
-            <span style={{ color: "#162137" }} className="font-semibold">
+            <span className="text-text-secondary">Passengers:</span>
+            <span className="text-text-primary font-semibold">
               {formData.passengers}
             </span>
           </div>
           <div className="flex justify-between">
-            <span style={{ color: "#292e38" }}>Email:</span>
-            <span style={{ color: "#162137" }} className="font-semibold">
+            <span className="text-text-secondary">Email:</span>
+            <span className="text-text-primary font-semibold">
               {formData.email}
             </span>
           </div>
           <div className="flex justify-between">
-            <span style={{ color: "#292e38" }}>Phone:</span>
-            <span style={{ color: "#162137" }} className="font-semibold">
+            <span className="text-text-secondary">Phone:</span>
+            <span className="text-text-primary font-semibold">
               {formData.phone}
             </span>
           </div>
           <hr className="my-2" />
           <div className="flex justify-between">
-            <span style={{ color: "#292e38" }}>Pickup:</span>
-            <span style={{ color: "#162137" }} className="font-semibold">
+            <span className="text-text-secondary">Pickup:</span>
+            <span className="text-text-primary font-semibold">
               {formData.arrivalLocation}
               {formData.arrivalLocationDetails &&
                 ` (${formData.arrivalLocationDetails})`}
             </span>
           </div>
           <div className="flex justify-between">
-            <span style={{ color: "#292e38" }}>Date & Time:</span>
-            <span style={{ color: "#162137" }} className="font-semibold">
+            <span className="text-text-secondary">Date & Time:</span>
+            <span className="text-text-primary font-semibold">
               {formData.arrivalDate} at {formData.arrivalTime}
             </span>
           </div>
@@ -67,16 +67,16 @@ const Step6 = ({ formData, onSubmit }) => {
             <>
               <hr className="my-2" />
               <div className="flex justify-between">
-                <span style={{ color: "#292e38" }}>Return Pickup:</span>
-                <span style={{ color: "#162137" }} className="font-semibold">
+                <span className="text-text-secondary">Return Pickup:</span>
+                <span className="text-text-primary font-semibold">
                   {formData.departureLocation}
                   {formData.departureLocationDetails &&
                     ` (${formData.departureLocationDetails})`}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span style={{ color: "#292e38" }}>Return Date & Time:</span>
-                <span style={{ color: "#162137" }} className="font-semibold">
+                <span className="text-text-secondary">Return Date & Time:</span>
+                <span className="text-text-primary font-semibold">
                   {formData.departureDate} at {formData.departureTime}
                 </span>
               </div>
@@ -88,13 +88,13 @@ const Step6 = ({ formData, onSubmit }) => {
         {formData.totalPrice && (
           <>
             <hr className="my-2" />
-            <h3 className="font-bold text-lg mb-2" style={{ color: "#162137" }}>
+            <h3 className="font-bold text-lg mb-2 text-text-primary">
               Price Information
             </h3>
-            <div className="bg-blue-50 p-4 rounded-md">
+            <div className="bg-primary-50 p-4 rounded-md">
               <div className="text-center p-4 bg-white rounded shadow-md">
                 <p className="text-xl text-gray-700 font-medium">Total Price</p>
-                <p className="font-bold text-2xl text-blue-600">
+                <p className="font-bold text-2xl text-primary">
                   ${formData.totalPrice}
                 </p>
                 <p className="text-sm text-gray-500 mt-1">
