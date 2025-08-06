@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 const useFormData = () => {
   const [formData, setFormData] = useState({
@@ -27,9 +27,20 @@ const useFormData = () => {
     departureLocationDetails: "",
   });
 
+  const [loadingStates, setLoadingStates] = useState({
+    vehicles: false,
+    zones: false,
+    hotels: false,
+    prices: false,
+  });
+
   const updateFormData = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  const setLoading = useCallback((key, isLoading) => {
+    setLoadingStates((prev) => ({ ...prev, [key]: isLoading }));
+  }, []);
 
   const resetFormData = () => {
     setFormData({
@@ -61,6 +72,8 @@ const useFormData = () => {
     formData,
     updateFormData,
     resetFormData,
+    loadingStates,
+    setLoading,
   };
 };
 

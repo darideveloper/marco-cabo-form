@@ -14,7 +14,7 @@ import Step6 from "./components/steps/Step6";
 
 const MultiStepForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const { formData, updateFormData, resetFormData } = useFormData();
+  const { formData, updateFormData, resetFormData, loadingStates, setLoading } = useFormData();
 
   const totalSteps = formData.serviceType === "Round Trip" ? 6 : 5;
 
@@ -39,7 +39,7 @@ const MultiStepForm = () => {
   };
 
   const renderCurrentStep = () => {
-    const stepProps = { formData, updateFormData };
+    const stepProps = { formData, updateFormData, loadingStates, setLoading };
 
     switch (currentStep) {
       case 1:
