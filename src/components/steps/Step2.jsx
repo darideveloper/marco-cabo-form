@@ -1,7 +1,26 @@
 import { RadioGroup, RadioGroupItem } from "../RadioGroup";
 import Label from "../Label";
+import { getTransferTypes } from "../../api/transfer_type_api";
+import { useEffect, useState } from "react";
 
-const Step2 = ({ formData, updateFormData }) => {
+const Step2 = ({ formData, updateFormData, loadingStates, setLoading }) => {
+  const [transferTypes, setTransferTypes] = useState([]);
+  
+  useEffect(() => {
+    const fetchTransferTypes = async () => {
+      setLoading("transferTypes", true);
+      try {
+        const transferTypes = await getTransferTypes();
+        setTransferTypes(transferTypes);
+      } catch (error) {
+        console.error("Error fetching transfer types:", error);
+      } finally {
+        setLoading("transferTypes", false);
+      }
+    };
+    fetchTransferTypes();
+  }, [setLoading]);
+
   return (
     <div className="space-y-6">
       <div className="text-center">
@@ -11,32 +30,39 @@ const Step2 = ({ formData, updateFormData }) => {
         <p className="text-text-secondary">Choose your travel preference</p>
       </div>
 
-      <RadioGroup
-        value={formData.serviceType}
-        onChange={(value) => updateFormData("serviceType", value)}
-      >
-        {["One way", "Round Trip"].map((option) => (
-          <Label
-            key={option}
-            htmlFor={option}
-            className={`flex items-center space-x-4 p-4 border-2 rounded-lg cursor-pointer hover:border-primary transition-colors ${
-              formData.serviceType === option
-                ? "border-primary bg-primary-50"
-                : "border-gray-200"
-            }`}
-          >
-            <RadioGroupItem
-              value={option}
-              id={option}
-              checked={formData.serviceType === option}
-              onChange={(e) => updateFormData("serviceType", e.target.value)}
-            />
-            <div className="font-semibold text-text-primary">
-              {option}
-            </div>
-          </Label>
-        ))}
-      </RadioGroup>
+      {loadingStates.transferTypes ? (
+        <div className="flex justify-center items-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          <span className="ml-3 text-text-secondary">Loading service types...</span>
+        </div>
+      ) : (
+        <RadioGroup
+          value={formData.serviceType}
+          onChange={(value) => updateFormData("serviceType", value)}
+        >
+          {transferTypes?.map((option) => (
+            <Label
+              key={option.id}
+              htmlFor={`transfer-type-${option.id}`}
+              className={`flex items-center space-x-4 p-4 border-2 rounded-lg cursor-pointer hover:border-primary transition-colors ${
+                formData.serviceType === option.name
+                  ? "border-primary bg-primary-50"
+                  : "border-gray-200"
+              }`}
+            >
+              <RadioGroupItem
+                value={option.name}
+                id={`transfer-type-${option.id}`}
+                checked={formData.serviceType === option.name}
+                onChange={(e) => updateFormData("serviceType", e.target.value)}
+              />
+              <div className="font-semibold text-text-primary">
+                {option.name}
+              </div>
+            </Label>
+          ))}
+        </RadioGroup>
+      )}
     </div>
   );
 };

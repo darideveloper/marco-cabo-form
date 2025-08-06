@@ -1,10 +1,10 @@
 import { MapPin, Calendar, Clock } from "lucide-react";
 import Input from "../Input";
 import Label from "../Label";
-import zoneHotelsPrices from "../../api/zone-hotels-prices";
 import { useState, useEffect } from "react";
+import { getZones } from "../../api/zones_api";
 
-const Step4 = ({ formData, updateFormData }) => {
+const Step4 = ({ formData, updateFormData, loadingStates, setLoading }) => {
   // Initialize state from formData to persist selections when navigating between steps
   const [selectedZone, setSelectedZone] = useState(formData.arrivalZone || "");
   const [selectedHotel, setSelectedHotel] = useState(
@@ -12,19 +12,23 @@ const Step4 = ({ formData, updateFormData }) => {
   );
   const [availableHotels, setAvailableHotels] = useState([]);
   const [priceInfo, setPriceInfo] = useState(formData.priceInfo || null);
+  const [zones, setZones] = useState([]);
 
   // Initialize available hotels from formData on component mount
   useEffect(() => {
-    // When component mounts, if we have a saved zone, load its hotels
-    if (formData.arrivalZone) {
-      const zone = zoneHotelsPrices.zones.find(
-        (zone) => zone.name === formData.arrivalZone,
-      );
-      if (zone) {
-        setAvailableHotels(zone.hotels);
+    const fetchZones = async () => {
+      setLoading("zones", true);
+      try {
+        const zones = await getZones();
+        setZones(zones);
+      } catch (error) {
+        console.error("Error fetching zones:", error);
+      } finally {
+        setLoading("zones", false);
       }
-    }
-  }, []); // Empty dependency array means this runs once on mount
+    };
+    fetchZones();
+  }, [setLoading]);
 
   // Handle zone selection change
   const handleZoneChange = (e) => {
@@ -33,9 +37,9 @@ const Step4 = ({ formData, updateFormData }) => {
 
     // Find the zone data
     if (newZone) {
-      const zone = zoneHotelsPrices.zones.find((zone) => zone.name === newZone);
+      const zone = zones.find((zone) => zone.name === newZone);
       if (zone) {
-        setAvailableHotels(zone.hotels);
+        setAvailableHotels(zone.locations);
         setSelectedHotel(""); // Reset hotel when zone changes
 
         // Update form data
@@ -62,34 +66,21 @@ const Step4 = ({ formData, updateFormData }) => {
     setSelectedHotel(newHotel);
 
     if (newHotel && selectedZone) {
-      const zone = zoneHotelsPrices.zones.find(
-        (zone) => zone.name === selectedZone,
-      );
-      if (zone) {
-        const hotel = zone.hotels.find((hotel) => hotel.name === newHotel);
-        if (hotel) {
-          const currentPriceInfo =
-            formData.serviceType === "Round Trip"
-              ? hotel.roundTrip
-              : hotel.oneWay;
-
-          setPriceInfo(currentPriceInfo);
-
-          // Update form data
-          updateFormData("arrivalHotel", newHotel);
-          updateFormData("arrivalLocation", `${selectedZone} - ${newHotel}`);
-          updateFormData("priceInfo", currentPriceInfo);
-
-          // Set total price based on transport type
-          if (formData.transport === "Suburban") {
-            updateFormData("totalPrice", currentPriceInfo.suburban);
-          } else if (formData.transport === "Van") {
-            updateFormData("totalPrice", currentPriceInfo.van);
-          } else if (formData.transport === "Sprinter") {
-            updateFormData("totalPrice", currentPriceInfo.sprinter);
-          }
-        }
-      }
+      // Update form data
+      updateFormData("arrivalHotel", newHotel);
+      updateFormData("arrivalLocation", `${selectedZone} - ${newHotel}`);
+      
+      // For now, we'll set a placeholder price info since the API structure has changed
+      // This should be updated when the pricing API is available
+      const placeholderPriceInfo = {
+        suburban: 0,
+        van: 0,
+        sprinter: 0
+      };
+      
+      setPriceInfo(placeholderPriceInfo);
+      updateFormData("priceInfo", placeholderPriceInfo);
+      updateFormData("totalPrice", 0);
     } else {
       setPriceInfo(null);
       updateFormData("arrivalHotel", "");
@@ -109,26 +100,32 @@ const Step4 = ({ formData, updateFormData }) => {
         </p>
       </div>
 
-      <div className="grid gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="arrivalZone" className="flex items-center gap-2">
-            <MapPin className="w-4 h-4" />
-            Select Zone
-          </Label>
-          <select
-            id="arrivalZone"
-            value={selectedZone}
-            onChange={handleZoneChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-          >
-            <option value="">Select a zone</option>
-            {zoneHotelsPrices.zones.map((zone) => (
-              <option key={zone.name} value={zone.name}>
-                {zone.name}
-              </option>
-            ))}
-          </select>
+      {loadingStates.zones ? (
+        <div className="flex justify-center items-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          <span className="ml-3 text-text-secondary">Loading zones...</span>
         </div>
+      ) : (
+        <div className="grid gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="arrivalZone" className="flex items-center gap-2">
+              <MapPin className="w-4 h-4" />
+              Select Zone
+            </Label>
+            <select
+              id="arrivalZone"
+              value={selectedZone}
+              onChange={handleZoneChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="">Select a zone</option>
+              {zones.map((zone) => (
+                <option key={zone.id} value={zone.name}>
+                  {zone.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
         <div className="space-y-2">
           <Label htmlFor="arrivalHotel" className="flex items-center gap-2">
@@ -144,7 +141,7 @@ const Step4 = ({ formData, updateFormData }) => {
           >
             <option value="">Select a hotel</option>
             {availableHotels.map((hotel) => (
-              <option key={hotel.name} value={hotel.name}>
+              <option key={hotel.id} value={hotel.name}>
                 {hotel.name}
               </option>
             ))}
@@ -220,6 +217,7 @@ const Step4 = ({ formData, updateFormData }) => {
           </div>
         </div>
       </div>
+    )}
     </div>
   );
 };

@@ -29,6 +29,7 @@ const useFormData = () => {
 
   const [loadingStates, setLoadingStates] = useState({
     vehicles: false,
+    transferTypes: false,
     zones: false,
     hotels: false,
     prices: false,
