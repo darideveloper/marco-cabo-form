@@ -2,8 +2,11 @@ import { User, Mail, Phone, Users } from "lucide-react";
 import Input from "../Input";
 import Select from "../Select";
 import Label from "../Label";
+import useBookingStore from "../../store/bookingStore";
 
-const Step3 = ({ formData, updateFormData }) => {
+const Step3 = () => {
+  const { formData, updateFormData } = useBookingStore();
+
   return (
     <div className="space-y-6">
       <div className="text-center">

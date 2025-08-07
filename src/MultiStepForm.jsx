@@ -2,7 +2,7 @@ import { useState } from "react";
 import ProgressBar from "./components/ProgressBar";
 import Button from "./components/Button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import useFormData from "./hooks/useFormData";
+import useBookingStore from "./store/bookingStore";
 
 // Import step components
 import Step1 from "./components/steps/Step1";
@@ -14,9 +14,9 @@ import Step6 from "./components/steps/Step6";
 
 const MultiStepForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const { formData, updateFormData, resetFormData, loadingStates, setLoading } = useFormData();
+  const { formData, resetFormData, getTransferTypeName } = useBookingStore();
 
-  const totalSteps = formData.serviceType === "Round Trip" ? 6 : 5;
+  const totalSteps = getTransferTypeName(formData.serviceType) === "Round Trip" ? 6 : 5;
 
   const nextStep = () => {
     if (currentStep < totalSteps) {
@@ -39,27 +39,25 @@ const MultiStepForm = () => {
   };
 
   const renderCurrentStep = () => {
-    const stepProps = { formData, updateFormData, loadingStates, setLoading };
-
     switch (currentStep) {
       case 1:
-        return <Step1 {...stepProps} />;
+        return <Step1 />;
       case 2:
-        return <Step2 {...stepProps} />;
+        return <Step2 />;
       case 3:
-        return <Step3 {...stepProps} />;
+        return <Step3 />;
       case 4:
-        return <Step4 {...stepProps} />;
+        return <Step4 />;
       case 5:
-        return formData.serviceType === "Round Trip" ? (
-          <Step5 {...stepProps} />
+        return getTransferTypeName(formData.serviceType) === "Round Trip" ? (
+          <Step5 />
         ) : (
-          <Step6 {...stepProps} onSubmit={handleSubmit} />
+          <Step6 onSubmit={handleSubmit} />
         );
       case 6:
-        return <Step6 {...stepProps} onSubmit={handleSubmit} />;
+        return <Step6 onSubmit={handleSubmit} />;
       default:
-        return <Step1 {...stepProps} />;
+        return <Step1 />;
     }
   };
 
@@ -86,7 +84,7 @@ const MultiStepForm = () => {
         );
       case 5:
         return (
-          formData.serviceType === "One way" ||
+          getTransferTypeName(formData.serviceType) === "One way" ||
           (formData.departureDate && formData.departureTime)
         );
       default:

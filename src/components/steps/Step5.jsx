@@ -1,8 +1,11 @@
 import { Calendar, Clock } from "lucide-react";
 import Input from "../Input";
 import Label from "../Label";
+import useBookingStore from "../../store/bookingStore";
 
-const Step5 = ({ formData, updateFormData }) => {
+const Step5 = () => {
+  const { formData, updateFormData } = useBookingStore();
+
   return (
     <div className="space-y-6">
       <div className="text-center">
@@ -34,12 +37,12 @@ const Step5 = ({ formData, updateFormData }) => {
               <Clock className="w-4 h-4" />
               Return Time
             </Label>
-            <Input
-              id="departureTime"
-              type="time"
-              value={formData.departureTime}
-              onChange={(e) => updateFormData("departureTime", e.target.value)}
-            />
+                          <Input
+                id="departureTime"
+                type="time"
+                value={formData.departureTime}
+                onChange={(e) => updateFormData("departureTime", e.target.value)}
+              />
           </div>
         </div>
       </div>

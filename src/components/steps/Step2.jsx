@@ -1,25 +1,20 @@
 import { RadioGroup, RadioGroupItem } from "../RadioGroup";
 import Label from "../Label";
-import { getTransferTypes } from "../../api/transfer_type_api";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import useBookingStore from "../../store/bookingStore";
 
-const Step2 = ({ formData, updateFormData, loadingStates, setLoading }) => {
-  const [transferTypes, setTransferTypes] = useState([]);
+const Step2 = () => {
+  const { 
+    transferTypes, 
+    loadingStates, 
+    formData, 
+    updateFormData, 
+    fetchTransferTypes 
+  } = useBookingStore();
   
   useEffect(() => {
-    const fetchTransferTypes = async () => {
-      setLoading("transferTypes", true);
-      try {
-        const transferTypes = await getTransferTypes();
-        setTransferTypes(transferTypes);
-      } catch (error) {
-        console.error("Error fetching transfer types:", error);
-      } finally {
-        setLoading("transferTypes", false);
-      }
-    };
     fetchTransferTypes();
-  }, [setLoading]);
+  }, [fetchTransferTypes]);
 
   return (
     <div className="space-y-6">

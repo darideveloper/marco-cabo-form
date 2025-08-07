@@ -2,9 +2,17 @@ import { MapPin, Calendar, Clock } from "lucide-react";
 import Input from "../Input";
 import Label from "../Label";
 import { useState, useEffect } from "react";
-import { getZones } from "../../api/zones_api";
+import useBookingStore from "../../store/bookingStore";
 
-const Step4 = ({ formData, updateFormData, loadingStates, setLoading }) => {
+const Step4 = () => {
+  const { 
+    zones, 
+    loadingStates, 
+    formData, 
+    updateFormData, 
+    fetchZones 
+  } = useBookingStore();
+
   // Initialize state from formData to persist selections when navigating between steps
   const [selectedZone, setSelectedZone] = useState(formData.arrivalZone || "");
   const [selectedHotel, setSelectedHotel] = useState(
@@ -12,23 +20,11 @@ const Step4 = ({ formData, updateFormData, loadingStates, setLoading }) => {
   );
   const [availableHotels, setAvailableHotels] = useState([]);
   const [priceInfo, setPriceInfo] = useState(formData.priceInfo || null);
-  const [zones, setZones] = useState([]);
 
   // Initialize available hotels from formData on component mount
   useEffect(() => {
-    const fetchZones = async () => {
-      setLoading("zones", true);
-      try {
-        const zones = await getZones();
-        setZones(zones);
-      } catch (error) {
-        console.error("Error fetching zones:", error);
-      } finally {
-        setLoading("zones", false);
-      }
-    };
     fetchZones();
-  }, [setLoading]);
+  }, [fetchZones]);
 
   // Handle zone selection change
   const handleZoneChange = (e) => {

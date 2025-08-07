@@ -1,9 +1,8 @@
 import { Car, Truck, Bus } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "../RadioGroup";
 import Label from "../Label";
-import { getVehicles } from "../../api/vehicles_api";
-import { useEffect, useState } from "react";
-
+import { useEffect } from "react";
+import useBookingStore from "../../store/bookingStore";
 
 // Icon mapping for vehicle types
 const vehicleIcons = {
@@ -19,23 +18,19 @@ const vehicleDescriptions = {
   "Sprinter": "Large capacity for up to 10 passengers",
 };
 
-const Step1 = ({ formData, updateFormData, loadingStates, setLoading }) => {
-  const [vehicles, setVehicles] = useState([]);
+const Step1 = () => {
+  const { 
+    vehicles, 
+    loadingStates, 
+    formData, 
+    updateFormData, 
+    fetchVehicles 
+  } = useBookingStore();
   
   useEffect(() => {
-    const fetchVehicles = async () => {
-      setLoading("vehicles", true);
-      try {
-        const vehicles = await getVehicles();
-        setVehicles(vehicles);
-      } catch (error) {
-        console.error("Error fetching vehicles:", error);
-      } finally {
-        setLoading("vehicles", false);
-      }
-    };
     fetchVehicles();
-  }, [setLoading]);
+  }, [fetchVehicles]);
+
   return (
     <div className="space-y-6">
       <div className="text-center">
