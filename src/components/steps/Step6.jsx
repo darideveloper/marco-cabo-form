@@ -116,14 +116,6 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
             <>
               <hr className="my-2" />
               <div className="flex justify-between">
-                <span className="text-text-secondary">Return Pickup:</span>
-                <span className="text-text-primary font-semibold">
-                  {formData.departureLocation}
-                  {formData.departureLocationDetails &&
-                    ` (${formData.departureLocationDetails})`}
-                </span>
-              </div>
-              <div className="flex justify-between">
                 <span className="text-text-secondary">Return Date & Time:</span>
                 <span className="text-text-primary font-semibold">
                   {formData.departureDate} at {formData.departureTime}
@@ -158,25 +150,32 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
         ) : formData.priceInfo ? (
           <div className="space-y-4">
             {/* Price breakdown by vehicle type */}
+
             <div className="grid grid-cols-3 gap-2">
-              <div
+              {formData.priceInfo.suburban && (
+                <div
                 className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "1" ? "ring-2 ring-primary" : ""}`}
               >
                 <p className="text-sm text-gray-600">Suburban</p>
                 <p className="font-bold">${formData.priceInfo.suburban || 0}</p>
               </div>
-              <div
+              )}
+              {formData.priceInfo.van && (
+                <div
                 className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "2" ? "ring-2 ring-primary" : ""}`}
               >
                 <p className="text-sm text-gray-600">Van</p>
                 <p className="font-bold">${formData.priceInfo.van || 0}</p>
               </div>
-              <div
+              )}
+              {formData.priceInfo.sprinter && (
+                <div
                 className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "3" ? "ring-2 ring-primary" : ""}`}
               >
                 <p className="text-sm text-gray-600">Sprinter</p>
                 <p className="font-bold">${formData.priceInfo.sprinter || 0}</p>
               </div>
+              )}
             </div>
 
             {/* Enhanced price calculation with VIP discount */}

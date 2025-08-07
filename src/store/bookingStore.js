@@ -26,10 +26,6 @@ const useBookingStore = create((set, get) => ({
     isVIPValid: false,
     departureDate: "",
     departureTime: "",
-    departureLocation: "",
-    departureZone: "",
-    departureHotel: "",
-    departureLocationDetails: "",
   },
 
   // API data
@@ -76,10 +72,6 @@ const useBookingStore = create((set, get) => ({
         isVIPValid: false,
         departureDate: "",
         departureTime: "",
-        departureLocation: "",
-        departureZone: "",
-        departureHotel: "",
-        departureLocationDetails: "",
       }
     }));
   },
