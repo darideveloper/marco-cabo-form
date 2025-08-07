@@ -51,73 +51,73 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-2 text-text-primary">
+        <h2 className="text-xl sm:text-2xl font-bold mb-2 text-text-primary">
           Booking Summary & Payment
         </h2>
-        <p className="text-text-secondary">Review your booking details and apply any discounts</p>
+        <p className="text-sm sm:text-base text-text-secondary">Review your booking details and apply any discounts</p>
       </div>
 
-      <div className="bg-gray-50 p-6 rounded-lg space-y-4">
-        <div className="grid gap-3">
-          <div className="flex justify-between">
-            <span className="text-text-secondary">Transport:</span>
-            <span className="text-text-primary font-semibold">
+      <div className="bg-gray-50 p-4 sm:p-6 rounded-lg space-y-3 sm:space-y-4">
+        <div className="space-y-3">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
+            <span className="text-sm sm:text-base text-text-secondary">Transport:</span>
+            <span className="text-sm sm:text-base text-text-primary font-semibold break-words">
               {getVehicleName(formData.transport)}
             </span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-text-secondary">Service:</span>
-            <span className="text-text-primary font-semibold">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
+            <span className="text-sm sm:text-base text-text-secondary">Service:</span>
+            <span className="text-sm sm:text-base text-text-primary font-semibold break-words">
               {getTransferTypeName(formData.serviceType)}
             </span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-text-secondary">Passenger:</span>
-            <span className="text-text-primary font-semibold">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
+            <span className="text-sm sm:text-base text-text-secondary">Passenger:</span>
+            <span className="text-sm sm:text-base text-text-primary font-semibold break-words">
               {formData.name} {formData.lastName}
             </span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-text-secondary">Passengers:</span>
-            <span className="text-text-primary font-semibold">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
+            <span className="text-sm sm:text-base text-text-secondary">Passengers:</span>
+            <span className="text-sm sm:text-base text-text-primary font-semibold">
               {formData.passengers}
             </span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-text-secondary">Email:</span>
-            <span className="text-text-primary font-semibold">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-0">
+            <span className="text-sm sm:text-base text-text-secondary">Email:</span>
+            <span className="text-sm sm:text-base text-text-primary font-semibold break-all">
               {formData.email}
             </span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-text-secondary">Phone:</span>
-            <span className="text-text-primary font-semibold">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
+            <span className="text-sm sm:text-base text-text-secondary">Phone:</span>
+            <span className="text-sm sm:text-base text-text-primary font-semibold break-words">
               {formData.phone}
             </span>
           </div>
           <hr className="my-2" />
-          <div className="flex justify-between">
-            <span className="text-text-secondary">Pickup:</span>
-            <span className="text-text-primary font-semibold">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-0">
+            <span className="text-sm sm:text-base text-text-secondary">Pickup:</span>
+            <span className="text-sm sm:text-base text-text-primary font-semibold break-words text-right sm:text-left">
               {formData.arrivalLocation}
               {formData.arrivalLocationDetails &&
                 ` (${formData.arrivalLocationDetails})`}
             </span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-text-secondary">Date & Time:</span>
-            <span className="text-text-primary font-semibold">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
+            <span className="text-sm sm:text-base text-text-secondary">Date & Time:</span>
+            <span className="text-sm sm:text-base text-text-primary font-semibold break-words">
               {formData.arrivalDate} at {formData.arrivalTime}
             </span>
           </div>
           {getTransferTypeName(formData.serviceType) === "Round Trip" && (
             <>
               <hr className="my-2" />
-              <div className="flex justify-between">
-                <span className="text-text-secondary">Return Date & Time:</span>
-                <span className="text-text-primary font-semibold">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
+                <span className="text-sm sm:text-base text-text-secondary">Return Date & Time:</span>
+                <span className="text-sm sm:text-base text-text-primary font-semibold break-words">
                   {formData.departureDate} at {formData.departureTime}
                 </span>
               </div>
@@ -127,7 +127,7 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
       </div>
 
       {/* VIP Code Input */}
-      <div className="bg-white p-6 rounded-lg border border-gray-200">
+      <div className="bg-white p-4 sm:p-6 rounded-lg border border-gray-200">
         <VIPCodeInput
           value={formData.vipCode}
           onChange={(value) => updateFormData("vipCode", value)}
@@ -138,7 +138,7 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
       </div>
 
       {/* Price Information Display */}
-      <div className="bg-primary-50 p-6 rounded-lg border-2 border-primary">
+      <div className="bg-primary-50 p-4 sm:p-6 rounded-lg border-2 border-primary">
         <h3 className="font-bold text-lg mb-4 text-text-primary">
           Price Information
         </h3>
@@ -149,66 +149,44 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
           </div>
         ) : formData.priceInfo ? (
           <div className="space-y-4">
-            {/* Price breakdown by vehicle type */}
-
-            <div className="grid grid-cols-3 gap-2">
-              {formData.priceInfo.suburban && (
-                <div
-                className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "1" ? "ring-2 ring-primary" : ""}`}
-              >
-                <p className="text-sm text-gray-600">Suburban</p>
-                <p className="font-bold">${formData.priceInfo.suburban || 0}</p>
+            {/* Consolidated price display */}
+            <div className="text-center p-4 sm:p-6 bg-white rounded shadow-md">
+              <div className="mb-3">
+                <p className="text-sm text-gray-600">
+                  {getVehicleName(formData.transport)} • {getTransferTypeName(formData.serviceType)}
+                </p>
               </div>
-              )}
-              {formData.priceInfo.van && (
-                <div
-                className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "2" ? "ring-2 ring-primary" : ""}`}
-              >
-                <p className="text-sm text-gray-600">Van</p>
-                <p className="font-bold">${formData.priceInfo.van || 0}</p>
-              </div>
-              )}
-              {formData.priceInfo.sprinter && (
-                <div
-                className={`text-center p-2 bg-white rounded shadow-sm ${formData.transport === "3" ? "ring-2 ring-primary" : ""}`}
-              >
-                <p className="text-sm text-gray-600">Sprinter</p>
-                <p className="font-bold">${formData.priceInfo.sprinter || 0}</p>
-              </div>
+              
+              {formData.priceInfo.basePrice !== undefined && (
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center text-sm">
+                    <span className="text-gray-600">Base Price:</span>
+                    <span className="font-semibold">${formData.priceInfo.basePrice}</span>
+                  </div>
+                  
+                  {formData.priceInfo.discount > 0 && (
+                    <div className="flex justify-between items-center text-sm text-green-600">
+                      <span>VIP Discount:</span>
+                      <span>-${formData.priceInfo.basePrice - formData.priceInfo.finalPrice}</span>
+                    </div>
+                  )}
+                  
+                  <hr className="border-gray-200" />
+                  
+                  <div className="pt-2">
+                    <p className="text-lg text-gray-700 font-medium">Total Price</p>
+                    <p className="font-bold text-2xl sm:text-3xl text-primary">
+                      ${formData.priceInfo.finalPrice || formData.totalPrice || 0}
+                    </p>
+                    {formData.isVIPValid && (
+                      <p className="text-sm text-green-600 mt-1">
+                        VIP discount applied!
+                      </p>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
-
-            {/* Enhanced price calculation with VIP discount */}
-            {formData.priceInfo.basePrice !== undefined && (
-              <div className="space-y-3">
-                <hr className="border-gray-300" />
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Base Price:</span>
-                  <span className="font-semibold">${formData.priceInfo.basePrice}</span>
-                </div>
-                {formData.priceInfo.discount > 0 && (
-                  <div className="flex justify-between items-center text-green-600">
-                    <span>VIP Discount:</span>
-                    <span>-${formData.priceInfo.basePrice - formData.priceInfo.finalPrice}</span>
-                  </div>
-                )}
-                <hr className="border-gray-300" />
-                <div className="text-center p-4 bg-white rounded shadow-md">
-                  <p className="text-xl text-gray-700 font-medium">Total Price</p>
-                  <p className="font-bold text-2xl text-primary">
-                    ${formData.priceInfo.finalPrice || formData.totalPrice || 0}
-                  </p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    {getVehicleName(formData.transport)} {getTransferTypeName(formData.serviceType)}
-                  </p>
-                  {formData.isVIPValid && (
-                    <p className="text-sm text-green-600 mt-1">
-                      VIP discount applied!
-                    </p>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
         ) : (
           <div className="text-center py-4">
@@ -228,7 +206,7 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
 
       <Button 
         onClick={handleSubmit} 
-        className="w-full py-3 text-lg font-semibold"
+        className="w-full py-3 text-base sm:text-lg font-semibold"
         disabled={isSubmitting || loading}
       >
         {isSubmitting ? (
