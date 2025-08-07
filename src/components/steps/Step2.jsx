@@ -45,15 +45,15 @@ const Step2 = ({ formData, updateFormData, loadingStates, setLoading }) => {
               key={option.id}
               htmlFor={`transfer-type-${option.id}`}
               className={`flex items-center space-x-4 p-4 border-2 rounded-lg cursor-pointer hover:border-primary transition-colors ${
-                formData.serviceType === option.name
+                formData.serviceType === option.id.toString()
                   ? "border-primary bg-primary-50"
                   : "border-gray-200"
               }`}
             >
               <RadioGroupItem
-                value={option.name}
+                value={option.id.toString()}
                 id={`transfer-type-${option.id}`}
-                checked={formData.serviceType === option.name}
+                checked={formData.serviceType === option.id.toString()}
                 onChange={(e) => updateFormData("serviceType", e.target.value)}
               />
               <div className="font-semibold text-text-primary">
