@@ -1,4 +1,4 @@
-import { MapPin, Calendar, Clock } from "lucide-react";
+import { MapPin, Calendar, Clock, Plane } from "lucide-react";
 import Input from "../Input";
 import Label from "../Label";
 import { useState, useEffect } from "react";
@@ -187,6 +187,35 @@ const Step4 = () => {
                 type="time"
                 value={formData.arrivalTime}
                 onChange={(e) => updateFormData("arrivalTime", e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* Flight Information */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="arrivalAirline" className="flex items-center gap-2">
+                <Plane className="w-4 h-4" />
+                Airline (Optional)
+              </Label>
+              <Input
+                id="arrivalAirline"
+                value={formData.arrivalAirline || ""}
+                onChange={(e) => updateFormData("arrivalAirline", e.target.value)}
+                placeholder="e.g., American Airlines, Delta"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="arrivalFlightNumber" className="flex items-center gap-2">
+                <Plane className="w-4 h-4" />
+                Flight Number (Optional)
+              </Label>
+              <Input
+                id="arrivalFlightNumber"
+                value={formData.arrivalFlightNumber || ""}
+                onChange={(e) => updateFormData("arrivalFlightNumber", e.target.value)}
+                placeholder="e.g., AA123, DL456"
               />
             </div>
           </div>

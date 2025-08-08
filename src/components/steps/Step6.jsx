@@ -112,6 +112,19 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
               {formData.arrivalDate} at {formData.arrivalTime}
             </span>
           </div>
+          
+          {/* Flight Information */}
+          {(formData.arrivalAirline || formData.arrivalFlightNumber) && (
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-0">
+              <span className="text-sm sm:text-base text-text-secondary">Flight:</span>
+              <span className="text-sm sm:text-base text-text-primary font-semibold break-words text-right sm:text-left">
+                {formData.arrivalAirline && formData.arrivalFlightNumber 
+                  ? `${formData.arrivalAirline} ${formData.arrivalFlightNumber}`
+                  : formData.arrivalAirline || formData.arrivalFlightNumber
+                }
+              </span>
+            </div>
+          )}
           {getTransferTypeName(formData.serviceType) === "Round Trip" && (
             <>
               <hr className="my-2" />
@@ -121,6 +134,19 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
                   {formData.departureDate} at {formData.departureTime}
                 </span>
               </div>
+              
+              {/* Return Flight Information */}
+              {(formData.departureAirline || formData.departureFlightNumber) && (
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 sm:gap-0">
+                  <span className="text-sm sm:text-base text-text-secondary">Return Flight:</span>
+                  <span className="text-sm sm:text-base text-text-primary font-semibold break-words text-right sm:text-left">
+                    {formData.departureAirline && formData.departureFlightNumber 
+                      ? `${formData.departureAirline} ${formData.departureFlightNumber}`
+                      : formData.departureAirline || formData.departureFlightNumber
+                    }
+                  </span>
+                </div>
+              )}
             </>
           )}
         </div>

@@ -20,12 +20,16 @@ const useBookingStore = create((set, get) => ({
     arrivalZone: "",
     arrivalHotel: "",
     arrivalLocationDetails: "",
+    arrivalAirline: "",
+    arrivalFlightNumber: "",
     priceInfo: null,
     totalPrice: null,
     vipCode: "",
     isVIPValid: false,
     departureDate: "",
     departureTime: "",
+    departureAirline: "",
+    departureFlightNumber: "",
   },
 
   // API data
@@ -66,12 +70,16 @@ const useBookingStore = create((set, get) => ({
         arrivalZone: "",
         arrivalHotel: "",
         arrivalLocationDetails: "",
+        arrivalAirline: "",
+        arrivalFlightNumber: "",
         priceInfo: null,
         totalPrice: null,
         vipCode: "",
         isVIPValid: false,
         departureDate: "",
         departureTime: "",
+        departureAirline: "",
+        departureFlightNumber: "",
       }
     }));
   },
