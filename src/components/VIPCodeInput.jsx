@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Input from "./Input";
-import { CheckCircle, XCircle, Loader2 } from "lucide-react";
+import Button from "./Button";
+import { CheckCircle, XCircle, Loader2, Check } from "lucide-react";
 
 const VIPCodeInput = ({ value, onChange, onValidation, isValid, isChecking }) => {
   const [localValue, setLocalValue] = useState(value || "");
@@ -9,14 +10,11 @@ const VIPCodeInput = ({ value, onChange, onValidation, isValid, isChecking }) =>
     const newValue = e.target.value;
     setLocalValue(newValue);
     onChange(newValue);
-    
-    // Validate after user stops typing
-    if (newValue.length >= 3) {
-      setTimeout(() => {
-        onValidation(newValue);
-      }, 500);
-    } else {
-      onValidation("");
+  };
+
+  const handleCheckCode = () => {
+    if (localValue.length >= 3) {
+      onValidation(localValue);
     }
   };
 
@@ -71,17 +69,31 @@ const VIPCodeInput = ({ value, onChange, onValidation, isValid, isChecking }) =>
       <label className="block text-sm font-medium text-text-primary">
         VIP Code (Optional)
       </label>
-      <div className="relative">
-        <Input
-          type="text"
-          placeholder="Enter VIP code"
-          value={localValue}
-          onChange={handleChange}
-          className="pr-10"
-        />
-        <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-          {getStatusIcon()}
+      <div className="flex gap-2">
+        <div className="relative flex-1">
+          <Input
+            type="text"
+            placeholder="Enter VIP code"
+            value={localValue}
+            onChange={handleChange}
+            className="pr-10"
+          />
+          <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+            {getStatusIcon()}
+          </div>
         </div>
+        <Button
+          onClick={handleCheckCode}
+          disabled={localValue.length < 3 || isChecking}
+          className="px-4 py-2 min-w-[80px]"
+          variant="outline"
+        >
+          {isChecking ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Check className="w-4 h-4" />
+          )}
+        </Button>
       </div>
       {getStatusText() && (
         <p className={`text-sm ${getStatusColor()}`}>

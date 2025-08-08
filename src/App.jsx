@@ -5,12 +5,21 @@ import { fetchData } from "./api/api";
 function App() {
 
   useEffect(() => {
-    const fetchVehicles = async () => {
-      const data = await fetchData("/vehicles", "GET", null);
-      console.log(data);
+    const testVIPCode = async () => {
+      try {
+        console.log('Testing VIP code API...');
+        const response = await fetchData("/validate-vip-code", "POST", { 
+          "vip_code": "loscabos25" 
+        });
+        console.log('VIP API Response:', response);
+      } catch (error) {
+        console.error('VIP API Error:', error);
+      }
     };
-    fetchVehicles();
+
+    testVIPCode();
   }, []);
+
   return (
     <>
       <MultiStepForm />
