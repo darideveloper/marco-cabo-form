@@ -3,6 +3,7 @@ import { getPrices } from '../api/price_api';
 import { getVehicles } from '../api/vehicles_api';
 import { getTransferTypes } from '../api/transfer_type_api';
 import { getZones } from '../api/zones_api';
+import { checkVIPCode } from '../api/vip_check_api';
 
 const useBookingStore = create((set, get) => ({
   // Form data
@@ -153,12 +154,12 @@ const useBookingStore = create((set, get) => ({
 
         if (matchingPrice) {
           const basePrice = parseFloat(matchingPrice.price);
-          const finalPrice = formData.isVIPValid ? basePrice * 0.9 : basePrice;
+          const finalPrice = formData.isVIPValid ? 0 : basePrice;
 
           const priceInfo = {
             basePrice: basePrice,
             finalPrice: finalPrice,
-            discount: formData.isVIPValid ? basePrice * 0.1 : 0,
+            discount: formData.isVIPValid ? basePrice : 0,
             suburban: prices.find(p => p.vehicle.id === 1)?.price || 0,
             van: prices.find(p => p.vehicle.id === 2)?.price || 0,
             sprinter: prices.find(p => p.vehicle.id === 3)?.price || 0,
@@ -196,22 +197,39 @@ const useBookingStore = create((set, get) => ({
 
   // VIP validation
   validateVIP: async (code) => {
-    // Mock VIP validation - replace with actual API call
-    const isValid = code === 'VIP123';
-    set((state) => ({
-      formData: { 
-        ...state.formData, 
-        vipCode: code,
-        isVIPValid: isValid 
-      }
-    }));
-    
-    // Recalculate prices after VIP validation
-    if (isValid) {
+    try {
+      const response = await checkVIPCode(code);
+      const isValid = response && response.status === "sucess";
+      
+      set((state) => ({
+        formData: { 
+          ...state.formData, 
+          vipCode: code,
+          isVIPValid: isValid 
+        }
+      }));
+      
+      // Always recalculate prices after VIP validation (valid or invalid)
       await get().calculatePrices();
+      
+      return isValid;
+    } catch (error) {
+      console.error('VIP validation error:', error);
+      
+      // Set as invalid on error
+      set((state) => ({
+        formData: { 
+          ...state.formData, 
+          vipCode: code,
+          isVIPValid: false 
+        }
+      }));
+      
+      // Recalculate prices to revert to original price
+      await get().calculatePrices();
+      
+      return false;
     }
-    
-    return isValid;
   },
 }));
 

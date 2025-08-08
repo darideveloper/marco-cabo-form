@@ -48,7 +48,7 @@ const VIPCodeInput = ({ value, onChange, onValidation, isValid, isChecking }) =>
     }
     
     if (isValid) {
-      return "VIP code valid! Price will be $0.00";
+      return "VIP code valid! Total price will be $0.00";
     }
     
     if (localValue.length >= 3) {
@@ -91,7 +91,7 @@ const VIPCodeInput = ({ value, onChange, onValidation, isValid, isChecking }) =>
           {isChecking ? (
             <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
-            <Check className="w-4 h-4" />
+            "Apply"
           )}
         </Button>
       </div>
