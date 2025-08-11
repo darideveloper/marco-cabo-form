@@ -1,7 +1,7 @@
 import { fetchData } from "./api";
 
 const getTransferTypes = async () => {
-  const data = await fetchData("/transfer-types", "GET", null);
+  const data = await fetchData("/service-types", "GET", null);
   return data.results;
 };
 

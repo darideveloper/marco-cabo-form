@@ -5,7 +5,7 @@ import Label from "../Label";
 import useBookingStore from "../../store/bookingStore";
 
 const Step3 = () => {
-  const { formData, updateFormData } = useBookingStore();
+  const { formData, updateFormData, vehicles, getVehicleName } = useBookingStore();
 
   return (
     <div className="space-y-6">
@@ -83,12 +83,58 @@ const Step3 = () => {
             onChange={(value) => updateFormData("passengers", value)}
             placeholder="Select number of passengers"
           >
-            {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
-              <option key={num} value={num.toString()}>
-                {num} {num === 1 ? "passenger" : "passengers"}
-              </option>
-            ))}
+            {(() => {
+              // Get the selected vehicle
+              const selectedVehicle = vehicles.find(v => v.id.toString() === formData.transport);
+              let maxPassengers = 20; // Default fallback
+              
+              // Set max passengers based on vehicle type
+              if (selectedVehicle) {
+                switch (selectedVehicle.name) {
+                  case "Suburban":
+                    maxPassengers = 4;
+                    break;
+                  case "Van":
+                    maxPassengers = 8;
+                    break;
+                  case "Sprinter":
+                    maxPassengers = 10;
+                    break;
+                  default:
+                    maxPassengers = 20;
+                }
+              }
+              
+              // Reset passengers if current selection exceeds vehicle capacity
+              if (formData.passengers && parseInt(formData.passengers) > maxPassengers) {
+                updateFormData("passengers", "");
+              }
+              
+              return Array.from({ length: maxPassengers }, (_, i) => i + 1).map((num) => (
+                <option key={num} value={num.toString()}>
+                  {num} {num === 1 ? "passenger" : "passengers"}
+                </option>
+              ));
+            })()}
           </Select>
+          {formData.transport && (
+            <p className="text-xs text-text-secondary mt-1">
+              Maximum capacity for {getVehicleName(formData.transport)}: {
+                (() => {
+                  const selectedVehicle = vehicles.find(v => v.id.toString() === formData.transport);
+                  if (selectedVehicle) {
+                    switch (selectedVehicle.name) {
+                      case "Suburban": return "4 passengers";
+                      case "Van": return "8 passengers";
+                      case "Sprinter": return "10 passengers";
+                      default: return "20 passengers";
+                    }
+                  }
+                  return "20 passengers";
+                })()
+              }
+            </p>
+          )}
         </div>
       </div>
     </div>

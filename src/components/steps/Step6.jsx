@@ -230,10 +230,36 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
         </div>
       )}
 
+      {/* Privacy Consent Checkbox */}
+      <div className="bg-white p-4 sm:p-6 rounded-lg border border-gray-200">
+        <div className="flex items-start space-x-3">
+          <input
+            type="checkbox"
+            id="privacy-consent"
+            checked={formData.privacyConsent}
+            onChange={(e) => updateFormData("privacyConsent", e.target.checked)}
+            className="mt-1 h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary focus:ring-2"
+            required
+          />
+          <label htmlFor="privacy-consent" className="text-sm text-text-secondary leading-relaxed">
+            I have read and accept the{" "}
+            <a
+              href="https://marco-cabo.com/privacy-policy/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:text-primary-dark underline font-medium"
+            >
+              Privacy Notice
+            </a>
+            .
+          </label>
+        </div>
+      </div>
+
       <Button 
         onClick={handleSubmit} 
         className="w-full py-3 text-base sm:text-lg font-semibold"
-        disabled={isSubmitting || loading}
+        disabled={isSubmitting || loading || !formData.privacyConsent}
       >
         {isSubmitting ? (
           <div className="flex items-center justify-center">

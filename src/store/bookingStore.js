@@ -31,6 +31,7 @@ const useBookingStore = create((set, get) => ({
     departureTime: "",
     departureAirline: "",
     departureFlightNumber: "",
+    privacyConsent: false,
   },
 
   // API data
@@ -81,6 +82,7 @@ const useBookingStore = create((set, get) => ({
         departureTime: "",
         departureAirline: "",
         departureFlightNumber: "",
+        privacyConsent: false,
       }
     }));
   },
