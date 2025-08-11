@@ -238,7 +238,7 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
             id="privacy-consent"
             checked={formData.privacyConsent}
             onChange={(e) => updateFormData("privacyConsent", e.target.checked)}
-            className="mt-1 h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary focus:ring-2"
+            className="mt-1 h-4 w-4 accent-primary border-gray-300 rounded focus:ring-primary focus:ring-2"
             required
           />
           <label htmlFor="privacy-consent" className="text-sm text-text-secondary leading-relaxed">
