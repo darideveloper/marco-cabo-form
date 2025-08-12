@@ -244,6 +244,7 @@ const useBookingStore = create((set, get) => ({
       throw new Error('Privacy consent is required');
     }
 
+
     // Prepare sale data
     const saleData = {
       service_type: parseInt(formData.serviceType),
@@ -255,8 +256,8 @@ const useBookingStore = create((set, get) => ({
       location: parseInt(formData.arrivalZone),
       arrival_date: formData.arrivalDate,
       arrival_time: formData.arrivalTime,
-      arrival_airline: formData.arrivalAirline || "",
-      arrival_flight_number: formData.arrivalFlightNumber || "",
+      arrival_airline: formData.arrivalAirline,
+      arrival_flight_number: formData.arrivalFlightNumber,
       vehicle: parseInt(formData.transport)
     };
 
@@ -271,8 +272,8 @@ const useBookingStore = create((set, get) => ({
     if (getTransferTypeName(formData.serviceType) === "Round Trip") {
       saleData.departure_date = formData.departureDate;
       saleData.departure_time = formData.departureTime;
-      saleData.departure_airline = formData.departureAirline || "";
-      saleData.departure_flight_number = formData.departureFlightNumber || "";
+      saleData.departure_airline = formData.departureAirline;
+      saleData.departure_flight_number = formData.departureFlightNumber;
     }
     console.log('Sale data:', saleData);
     try {

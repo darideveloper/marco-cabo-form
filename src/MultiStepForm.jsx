@@ -32,8 +32,7 @@ const MultiStepForm = () => {
 
   const handleSubmit = () => {
     console.log("Form submitted:", formData);
-    alert("Booking submitted successfully!");
-    // Reset form after submission
+    // reset form data
     resetFormData();
     setCurrentStep(1);
   };
@@ -80,12 +79,17 @@ const MultiStepForm = () => {
           formData.arrivalZone &&
           formData.arrivalHotel &&
           formData.arrivalDate &&
-          formData.arrivalTime
+          formData.arrivalTime &&
+          formData.arrivalAirline &&
+          formData.arrivalFlightNumber
         );
       case 5:
         return (
           getTransferTypeName(formData.serviceType) === "One way" ||
-          (formData.departureDate && formData.departureTime)
+          (formData.departureDate && 
+           formData.departureTime && 
+           formData.departureAirline && 
+           formData.departureFlightNumber)
         );
       default:
         return true;

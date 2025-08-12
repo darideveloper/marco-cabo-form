@@ -51,26 +51,28 @@ const Step5 = () => {
           <div className="space-y-2">
             <Label htmlFor="departureAirline" className="flex items-center gap-2">
               <Plane className="w-4 h-4" />
-              Airline (Optional)
+              Airline
             </Label>
             <Input
               id="departureAirline"
               value={formData.departureAirline || ""}
               onChange={(e) => updateFormData("departureAirline", e.target.value)}
               placeholder="e.g., American Airlines, Delta"
+              required
             />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="departureFlightNumber" className="flex items-center gap-2">
               <Plane className="w-4 h-4" />
-              Flight Number (Optional)
+              Flight Number
             </Label>
             <Input
               id="departureFlightNumber"
               value={formData.departureFlightNumber || ""}
               onChange={(e) => updateFormData("departureFlightNumber", e.target.value)}
               placeholder="e.g., AA123, DL456"
+              required
             />
           </div>
         </div>

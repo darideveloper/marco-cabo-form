@@ -5,6 +5,7 @@ const Input = ({
   onChange,
   placeholder,
   className = "",
+  required = false,
 }) => {
   return (
     <input
@@ -13,6 +14,7 @@ const Input = ({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
+      required={required}
       className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary ${className}`}
     />
   );

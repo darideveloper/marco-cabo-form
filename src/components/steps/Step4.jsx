@@ -196,26 +196,28 @@ const Step4 = () => {
             <div className="space-y-2">
               <Label htmlFor="arrivalAirline" className="flex items-center gap-2">
                 <Plane className="w-4 h-4" />
-                Airline (Optional)
+                Airline
               </Label>
               <Input
                 id="arrivalAirline"
                 value={formData.arrivalAirline || ""}
                 onChange={(e) => updateFormData("arrivalAirline", e.target.value)}
                 placeholder="e.g., American Airlines, Delta"
+                required
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="arrivalFlightNumber" className="flex items-center gap-2">
                 <Plane className="w-4 h-4" />
-                Flight Number (Optional)
+                Flight Number
               </Label>
               <Input
                 id="arrivalFlightNumber"
                 value={formData.arrivalFlightNumber || ""}
                 onChange={(e) => updateFormData("arrivalFlightNumber", e.target.value)}
                 placeholder="e.g., AA123, DL456"
+                required
               />
             </div>
           </div>
