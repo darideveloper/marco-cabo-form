@@ -261,6 +261,13 @@ const useBookingStore = create((set, get) => ({
       vehicle: parseInt(formData.transport)
     };
 
+    // Add location details if provided
+    if (formData.arrivalLocationDetails) {
+      saleData.location_details = formData.arrivalLocationDetails;
+    }else{
+      saleData.location_details = "";
+    }
+
     // Only include VIP code if it's valid
     if (formData.isVIPValid && formData.vipCode) {
       saleData.vip_code = formData.vipCode;
