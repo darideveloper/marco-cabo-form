@@ -39,14 +39,12 @@ const useBookingStore = create((set, get) => ({
   vehicles: [],
   transferTypes: [],
   zones: [],
-  hotels: [],
 
   // Loading states
   loadingStates: {
     vehicles: false,
     transferTypes: false,
     zones: false,
-    hotels: false,
     prices: false,
   },
 
@@ -163,9 +161,6 @@ const useBookingStore = create((set, get) => ({
             basePrice: basePrice,
             finalPrice: finalPrice,
             discount: formData.isVIPValid ? basePrice : 0,
-            suburban: prices.find(p => p.vehicle.id === 1)?.price || 0,
-            van: prices.find(p => p.vehicle.id === 2)?.price || 0,
-            sprinter: prices.find(p => p.vehicle.id === 3)?.price || 0,
           };
 
           updateFormData('priceInfo', priceInfo);
@@ -192,11 +187,7 @@ const useBookingStore = create((set, get) => ({
     return transferType ? transferType.name : transferTypeId;
   },
 
-  getZoneName: (zoneId) => {
-    const { zones } = get();
-    const zone = zones.find(z => z.id.toString() === zoneId);
-    return zone ? zone.name : zoneId;
-  },
+
 
   // VIP validation
   validateVIP: async (code) => {

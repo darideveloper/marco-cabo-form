@@ -70,17 +70,10 @@ const Step4 = () => {
       updateFormData("arrivalHotel", newHotel);
       updateFormData("arrivalLocation", `${zoneName} - ${newHotel}`);
       
-      // For now, we'll set a placeholder price info since the API structure has changed
-      // This should be updated when the pricing API is available
-      const placeholderPriceInfo = {
-        suburban: 0,
-        van: 0,
-        sprinter: 0
-      };
-      
-      setPriceInfo(placeholderPriceInfo);
-      updateFormData("priceInfo", placeholderPriceInfo);
-      updateFormData("totalPrice", 0);
+      // Reset price info when hotel changes
+      setPriceInfo(null);
+      updateFormData("priceInfo", null);
+      updateFormData("totalPrice", null);
     } else {
       setPriceInfo(null);
       updateFormData("arrivalHotel", "");
