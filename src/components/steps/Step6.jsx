@@ -3,7 +3,7 @@ import VIPCodeInput from "../VIPCodeInput";
 import { useState, useEffect, useRef } from "react";
 import useBookingStore from "../../store/bookingStore";
 
-const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
+const Step6 = ({ onSubmit, loading, error }) => {
   const { 
     formData, 
     updateFormData, 
@@ -11,7 +11,8 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
     calculatePrices, 
     validateVIP,
     getVehicleName,
-    getTransferTypeName
+    getTransferTypeName,
+    submitBookingData
   } = useBookingStore();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,7 +38,15 @@ const Step6 = ({ onSubmit, submitBookingData, loading, error }) => {
     
     try {
       const result = await submitBookingData();
-      onSubmit(result);
+      
+      if (result.success && result.paymentLink) {
+        // Redirect to payment link in a new tab
+        window.open(result.paymentLink, '_self');
+        // You can also show a success message or redirect the current tab
+        onSubmit(result);
+      } else {
+        setSubmitError('Payment link not received');
+      }
     } catch (error) {
       setSubmitError(error.message || 'Failed to submit booking');
     } finally {

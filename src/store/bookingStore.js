@@ -4,6 +4,7 @@ import { getVehicles } from '../api/vehicles_api';
 import { getTransferTypes } from '../api/transfer_type_api';
 import { getZones } from '../api/zones_api';
 import { checkVIPCode } from '../api/vip_check_api';
+import { createSale } from '../api/sale_api';
 
 const useBookingStore = create((set, get) => ({
   // Form data
@@ -231,6 +232,64 @@ const useBookingStore = create((set, get) => ({
       await get().calculatePrices();
       
       return false;
+    }
+  },
+
+  // Submit booking data
+  submitBookingData: async () => {
+    const { formData, getTransferTypeName } = get();
+    
+    // Check if privacy consent is given
+    if (!formData.privacyConsent) {
+      throw new Error('Privacy consent is required');
+    }
+
+    // Prepare sale data
+    const saleData = {
+      service_type: parseInt(formData.serviceType),
+      client_name: formData.name,
+      client_last_name: formData.lastName,
+      client_email: formData.email,
+      client_phone: formData.phone,
+      passengers: parseInt(formData.passengers),
+      location: parseInt(formData.arrivalZone),
+      arrival_date: formData.arrivalDate,
+      arrival_time: formData.arrivalTime,
+      arrival_airline: formData.arrivalAirline || "",
+      arrival_flight_number: formData.arrivalFlightNumber || "",
+      vehicle: parseInt(formData.transport)
+    };
+
+    // Only include VIP code if it's valid
+    if (formData.isVIPValid && formData.vipCode) {
+      saleData.vip_code = formData.vipCode;
+    }else{
+      saleData.vip_code = "";
+    }
+
+    // Add departure information only for round trip
+    if (getTransferTypeName(formData.serviceType) === "Round Trip") {
+      saleData.departure_date = formData.departureDate;
+      saleData.departure_time = formData.departureTime;
+      saleData.departure_airline = formData.departureAirline || "";
+      saleData.departure_flight_number = formData.departureFlightNumber || "";
+    }
+    console.log('Sale data:', saleData);
+    try {
+      const response = await createSale(saleData);
+      
+      if (response.status === "success") {
+        return {
+          success: true,
+          saleId: response.data.sale_id,
+          paymentLink: response.data.payment_link
+        };
+      } else {
+        throw new Error(response.message || 'Failed to create sale');
+      }
+    } catch (error) {
+      console.error('Sale submission error:', error);
+      throw new Error(error.message || 'Failed to submit booking');
     }
   },
 }));
