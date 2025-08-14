@@ -142,9 +142,9 @@ const Step4 = () => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="arrivalLocation" className="flex items-center gap-2">
+            <Label htmlFor="arrivalLocationDetails" className="flex items-center gap-2">
               <MapPin className="w-4 h-4" />
-              Additional Location Details (Optional)
+              Special Requirements
             </Label>
             <Input
               id="arrivalLocationDetails"
@@ -152,7 +152,7 @@ const Step4 = () => {
               onChange={(e) =>
                 updateFormData("arrivalLocationDetails", e.target.value)
               }
-              placeholder="Enter additional location details if needed"
+              placeholder="Baby car seat, booster seat, shopping stop..."
             />
           </div>
 

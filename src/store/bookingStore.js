@@ -252,11 +252,11 @@ const useBookingStore = create((set, get) => ({
       vehicle: parseInt(formData.transport)
     };
 
-    // Add location details if provided
+    // Add special requirements if provided
     if (formData.arrivalLocationDetails) {
-      saleData.location_details = formData.arrivalLocationDetails;
+      saleData.details = formData.arrivalLocationDetails;
     }else{
-      saleData.location_details = "";
+      saleData.details = "";
     }
 
     // Only include VIP code if it's valid
