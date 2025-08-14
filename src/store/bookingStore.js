@@ -150,7 +150,7 @@ const useBookingStore = create((set, get) => ({
         // Find the matching price for the selected vehicle and transfer type
         const matchingPrice = prices.find(price => 
           price.vehicle.id.toString() === formData.transport &&
-          price.transfer_type.id.toString() === formData.serviceType
+          price.service_type.id.toString() === formData.serviceType
         );
 
         if (matchingPrice) {
