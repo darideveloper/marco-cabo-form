@@ -7,6 +7,15 @@ import useBookingStore from "../../store/bookingStore";
 const Step3 = () => {
   const { formData, updateFormData, vehicles, getVehicleName } = useBookingStore();
 
+  // Email validation function
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Check if email is invalid (only show error if user has typed something)
+  const isEmailInvalid = formData.email && !isValidEmail(formData.email);
+
   return (
     <div className="space-y-6">
       <div className="text-center">
@@ -56,7 +65,13 @@ const Step3 = () => {
             value={formData.email}
             onChange={(e) => updateFormData("email", e.target.value)}
             placeholder="Enter your email address"
+            className={isEmailInvalid ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""}
           />
+          {isEmailInvalid && (
+            <p className="text-sm text-red-500 mt-1">
+              Please enter a valid email address
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">

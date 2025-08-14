@@ -18,6 +18,12 @@ const MultiStepForm = () => {
 
   const totalSteps = getTransferTypeName(formData.serviceType) === "Round Trip" ? 6 : 5;
 
+  // Email validation function
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const nextStep = () => {
     if (currentStep < totalSteps) {
       setCurrentStep((prev) => prev + 1);
@@ -71,6 +77,7 @@ const MultiStepForm = () => {
           formData.name &&
           formData.lastName &&
           formData.email &&
+          isValidEmail(formData.email) &&
           formData.phone &&
           formData.passengers
         );
