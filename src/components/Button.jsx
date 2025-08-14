@@ -7,7 +7,7 @@ const Button = ({
   style = {},
 }) => {
   const baseClasses =
-    "px-4 py-2 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2";
+    "px-4 py-2 rounded-lg font-semibold transition-all duration-200 flex items-center gap-2 hover:cursor-pointer";
 
   const variants = {
     primary: `${baseClasses} text-white bg-primary hover:bg-primary-600`,
