@@ -1,7 +1,7 @@
-import { MapPin, Calendar, Clock, Plane } from "lucide-react";
+import { MapPin, Calendar, Clock, Plane, Search, ChevronDown } from "lucide-react";
 import Input from "../Input";
 import Label from "../Label";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useBookingStore from "../../store/bookingStore";
 
 const Step4 = () => {
@@ -17,11 +17,26 @@ const Step4 = () => {
   const [selectedHotel, setSelectedHotel] = useState(formData.arrivalHotel || "");
   const [allHotels, setAllHotels] = useState([]);
   const [priceInfo, setPriceInfo] = useState(formData.priceInfo || null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   // Initialize available hotels from formData on component mount
   useEffect(() => {
     fetchZones();
   }, [fetchZones]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Create a flat list of all hotels with zone information when zones are loaded
   useEffect(() => {
@@ -38,33 +53,35 @@ const Step4 = () => {
     }
   }, [zones]);
 
-  // Handle hotel selection change
-  const handleHotelChange = (e) => {
-    const newHotel = e.target.value;
-    setSelectedHotel(newHotel);
+  // Filter hotels based on search term
+  const filteredHotels = allHotels.filter(hotel =>
+    hotel.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    hotel.zoneName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-    if (newHotel) {
-      // Find the selected hotel data including zone information
-      const hotelData = allHotels.find(hotel => hotel.name === newHotel);
+  // Handle hotel selection change
+  const handleHotelChange = (hotel) => {
+    setSelectedHotel(hotel.name);
+    setIsDropdownOpen(false);
+    setSearchTerm("");
+
+    if (hotel.name) {
+      // Update form data with both hotel and zone information
+      updateFormData("arrivalHotel", hotel.name);
+      updateFormData("arrivalZone", hotel.zoneId.toString());
+      updateFormData("arrivalLocation", `${hotel.zoneName} - ${hotel.name}`);
       
-      if (hotelData) {
-        // Update form data with both hotel and zone information
-        updateFormData("arrivalHotel", newHotel);
-        updateFormData("arrivalZone", hotelData.zoneId.toString());
-        updateFormData("arrivalLocation", `${hotelData.zoneName} - ${newHotel}`);
-        
-        // Reset price info when hotel changes
-        setPriceInfo(null);
-        updateFormData("priceInfo", null);
-        updateFormData("totalPrice", null);
-      }
-    } else {
+      // Reset price info when hotel changes
       setPriceInfo(null);
-      updateFormData("arrivalHotel", "");
-      updateFormData("arrivalZone", "");
-      updateFormData("arrivalLocation", "");
       updateFormData("priceInfo", null);
       updateFormData("totalPrice", null);
+    }
+  };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+    if (!isDropdownOpen) {
+      setSearchTerm("");
     }
   };
 
@@ -91,19 +108,58 @@ const Step4 = () => {
               <MapPin className="w-4 h-4" />
               Select Hotel
             </Label>
-            <select
-              id="arrivalHotel"
-              value={selectedHotel}
-              onChange={handleHotelChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="">Select a hotel</option>
-              {allHotels.map((hotel) => (
-                <option key={`${hotel.zoneId}-${hotel.id}`} value={hotel.name}>
-                  {hotel.name} ({hotel.zoneName})
-                </option>
-              ))}
-            </select>
+            <div className="relative" ref={dropdownRef}>
+              <button
+                type="button"
+                onClick={toggleDropdown}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-white text-left flex items-center justify-between"
+              >
+                <span className={selectedHotel ? "text-gray-900" : "text-gray-500"}>
+                  {selectedHotel || "Select a hotel"}
+                </span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? "rotate-180" : ""}`} />
+              </button>
+              
+              {isDropdownOpen && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-hidden">
+                  {/* Search Input */}
+                  <div className="p-3 border-b border-gray-200">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <input
+                        type="text"
+                        placeholder="Search hotels or zones..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                        autoFocus
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Hotel Options */}
+                  <div className="max-h-48 overflow-y-auto">
+                    {filteredHotels.length > 0 ? (
+                      filteredHotels.map((hotel) => (
+                        <button
+                          key={`${hotel.zoneId}-${hotel.id}`}
+                          type="button"
+                          onClick={() => handleHotelChange(hotel)}
+                          className="w-full px-4 py-3 text-left hover:bg-gray-50 focus:bg-gray-50 focus:outline-none border-b border-gray-100 last:border-b-0"
+                        >
+                          <div className="font-medium text-gray-900">{hotel.name}</div>
+                          <div className="text-sm text-gray-500">{hotel.zoneName}</div>
+                        </button>
+                      ))
+                    ) : (
+                      <div className="px-4 py-3 text-gray-500 text-center">
+                        No hotels found matching "{searchTerm}"
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">
