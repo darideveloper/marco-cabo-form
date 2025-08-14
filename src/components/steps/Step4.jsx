@@ -14,11 +14,8 @@ const Step4 = () => {
   } = useBookingStore();
 
   // Initialize state from formData to persist selections when navigating between steps
-  const [selectedZone, setSelectedZone] = useState(formData.arrivalZone || "");
-  const [selectedHotel, setSelectedHotel] = useState(
-    formData.arrivalHotel || "",
-  );
-  const [availableHotels, setAvailableHotels] = useState([]);
+  const [selectedHotel, setSelectedHotel] = useState(formData.arrivalHotel || "");
+  const [allHotels, setAllHotels] = useState([]);
   const [priceInfo, setPriceInfo] = useState(formData.priceInfo || null);
 
   // Initialize available hotels from formData on component mount
@@ -26,57 +23,46 @@ const Step4 = () => {
     fetchZones();
   }, [fetchZones]);
 
-  // Handle zone selection change
-  const handleZoneChange = (e) => {
-    const newZoneId = e.target.value;
-    setSelectedZone(newZoneId);
-
-    // Find the zone data
-    if (newZoneId) {
-      const zone = zones.find((zone) => zone.id.toString() === newZoneId);
-      if (zone) {
-        setAvailableHotels(zone.locations);
-        setSelectedHotel(""); // Reset hotel when zone changes
-
-        // Update form data
-        updateFormData("arrivalZone", newZoneId);
-        updateFormData("arrivalHotel", "");
-        updateFormData("arrivalLocation", "");
-        updateFormData("priceInfo", null);
-        updateFormData("totalPrice", null);
-      }
-    } else {
-      setAvailableHotels([]);
-      setSelectedHotel("");
-      updateFormData("arrivalZone", "");
-      updateFormData("arrivalHotel", "");
-      updateFormData("arrivalLocation", "");
-      updateFormData("priceInfo", null);
-      updateFormData("totalPrice", null);
+  // Create a flat list of all hotels with zone information when zones are loaded
+  useEffect(() => {
+    if (zones.length > 0) {
+      const hotelsList = zones.flatMap(zone => 
+        zone.locations.map(hotel => ({
+          ...hotel,
+          zoneId: zone.id,
+          zoneName: zone.name
+        }))
+      ).sort((a, b) => a.name.localeCompare(b.name));
+      
+      setAllHotels(hotelsList);
     }
-  };
+  }, [zones]);
 
   // Handle hotel selection change
   const handleHotelChange = (e) => {
     const newHotel = e.target.value;
     setSelectedHotel(newHotel);
 
-    if (newHotel && selectedZone) {
-      // Find the zone name for display
-      const zone = zones.find((zone) => zone.id.toString() === selectedZone);
-      const zoneName = zone ? zone.name : selectedZone;
+    if (newHotel) {
+      // Find the selected hotel data including zone information
+      const hotelData = allHotels.find(hotel => hotel.name === newHotel);
       
-      // Update form data
-      updateFormData("arrivalHotel", newHotel);
-      updateFormData("arrivalLocation", `${zoneName} - ${newHotel}`);
-      
-      // Reset price info when hotel changes
-      setPriceInfo(null);
-      updateFormData("priceInfo", null);
-      updateFormData("totalPrice", null);
+      if (hotelData) {
+        // Update form data with both hotel and zone information
+        updateFormData("arrivalHotel", newHotel);
+        updateFormData("arrivalZone", hotelData.zoneId.toString());
+        updateFormData("arrivalLocation", `${hotelData.zoneName} - ${newHotel}`);
+        
+        // Reset price info when hotel changes
+        setPriceInfo(null);
+        updateFormData("priceInfo", null);
+        updateFormData("totalPrice", null);
+      }
     } else {
       setPriceInfo(null);
       updateFormData("arrivalHotel", "");
+      updateFormData("arrivalZone", "");
+      updateFormData("arrivalLocation", "");
       updateFormData("priceInfo", null);
       updateFormData("totalPrice", null);
     }
@@ -101,26 +87,6 @@ const Step4 = () => {
       ) : (
         <div className="grid gap-4">
           <div className="space-y-2">
-            <Label htmlFor="arrivalZone" className="flex items-center gap-2">
-              <MapPin className="w-4 h-4" />
-              Select Zone
-            </Label>
-            <select
-              id="arrivalZone"
-              value={selectedZone}
-              onChange={handleZoneChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="">Select a zone</option>
-              {zones.map((zone) => (
-                <option key={zone.id} value={zone.id.toString()}>
-                  {zone.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="space-y-2">
             <Label htmlFor="arrivalHotel" className="flex items-center gap-2">
               <MapPin className="w-4 h-4" />
               Select Hotel
@@ -130,12 +96,11 @@ const Step4 = () => {
               value={selectedHotel}
               onChange={handleHotelChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-              disabled={!selectedZone}
             >
               <option value="">Select a hotel</option>
-              {availableHotels.map((hotel) => (
-                <option key={hotel.id} value={hotel.name}>
-                  {hotel.name}
+              {allHotels.map((hotel) => (
+                <option key={`${hotel.zoneId}-${hotel.id}`} value={hotel.name}>
+                  {hotel.name} ({hotel.zoneName})
                 </option>
               ))}
             </select>
