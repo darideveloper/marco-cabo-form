@@ -41,14 +41,18 @@ const Step4 = () => {
   // Create a flat list of all hotels with zone information when zones are loaded
   useEffect(() => {
     if (zones.length > 0) {
+      console.log('Zones data:', zones); // Debug: see the actual data structure
       const hotelsList = zones.flatMap(zone => 
         zone.locations.map(hotel => ({
           ...hotel,
           zoneId: zone.id,
-          zoneName: zone.name
+          zoneName: zone.name,
+          // Filter out postal code information if it exists
+          zoneNameClean: zone.name.replace(/Código Postal[:\s]*\d+/gi, '').trim()
         }))
       ).sort((a, b) => a.name.localeCompare(b.name));
       
+      console.log('Processed hotels:', hotelsList); // Debug: see processed data
       setAllHotels(hotelsList);
     }
   }, [zones]);
@@ -56,7 +60,8 @@ const Step4 = () => {
   // Filter hotels based on search term
   const filteredHotels = allHotels.filter(hotel =>
     hotel.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    hotel.zoneName.toLowerCase().includes(searchTerm.toLowerCase())
+    hotel.zoneName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (hotel.zoneNameClean && hotel.zoneNameClean.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   // Handle hotel selection change
@@ -69,7 +74,7 @@ const Step4 = () => {
       // Update form data with both hotel and zone information
       updateFormData("arrivalHotel", hotel.name);
       updateFormData("arrivalZone", hotel.zoneId.toString());
-      updateFormData("arrivalLocation", `${hotel.zoneName} - ${hotel.name}`);
+      updateFormData("arrivalLocation", `${hotel.zoneNameClean || hotel.zoneName} - ${hotel.name}`);
       
       // Reset price info when hotel changes
       setPriceInfo(null);
@@ -148,7 +153,7 @@ const Step4 = () => {
                           className="w-full px-4 py-3 text-left hover:bg-gray-50 focus:bg-gray-50 focus:outline-none border-b border-gray-100 last:border-b-0"
                         >
                           <div className="font-medium text-gray-900">{hotel.name}</div>
-                          <div className="text-sm text-gray-500">{hotel.zoneName}</div>
+                          <div className="text-sm text-gray-500">{hotel.zoneNameClean || hotel.zoneName}</div>
                         </button>
                       ))
                     ) : (
@@ -160,6 +165,17 @@ const Step4 = () => {
                 </div>
               )}
             </div>
+          </div>
+
+          {/* Private Villa or Airbnb Transfer Button */}
+          <div className="space-y-2">
+            <button
+              type="button"
+              onClick={() => window.open('mailto:info@marco-cabo.com', '_blank')}
+              className="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-md hover:border-primary hover:bg-primary/5 transition-colors text-center text-gray-600 hover:text-primary hover:cursor-pointer"
+            >
+              🏠 Private Villa or Airbnb Transfer Inquiry
+            </button>
           </div>
 
           <div className="space-y-2">
