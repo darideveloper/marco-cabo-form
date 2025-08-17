@@ -52,7 +52,11 @@ const MultiStepForm = () => {
       case 3:
         return <Step3 />;
       case 4:
-        return <Step4 />;
+        return getTransferTypeName(formData.serviceType) === "Round Trip" ? (
+          <Step4 />
+        ) : (
+          <Step5 />
+        );
       case 5:
         return getTransferTypeName(formData.serviceType) === "Round Trip" ? (
           <Step5 />
@@ -74,15 +78,6 @@ const MultiStepForm = () => {
         return formData.serviceType !== "";
       case 3:
         return (
-          formData.name &&
-          formData.lastName &&
-          formData.email &&
-          isValidEmail(formData.email) &&
-          formData.phone &&
-          formData.passengers
-        );
-      case 4:
-        return (
           formData.arrivalZone &&
           formData.arrivalHotel &&
           formData.arrivalDate &&
@@ -90,13 +85,22 @@ const MultiStepForm = () => {
           formData.arrivalAirline &&
           formData.arrivalFlightNumber
         );
-      case 5:
+      case 4:
         return (
           getTransferTypeName(formData.serviceType) === "One way" ||
           (formData.departureDate && 
            formData.departureTime && 
            formData.departureAirline && 
            formData.departureFlightNumber)
+        );
+      case 5:
+        return (
+          formData.name &&
+          formData.lastName &&
+          formData.email &&
+          isValidEmail(formData.email) &&
+          formData.phone &&
+          formData.passengers
         );
       default:
         return true;
