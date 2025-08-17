@@ -10,7 +10,10 @@ const Step3 = () => {
     loadingStates, 
     formData, 
     updateFormData, 
-    fetchZones 
+    fetchZones,
+    calculatePrices,
+    getVehicleName,
+    getTransferTypeName
   } = useBookingStore();
 
   // Initialize state from formData to persist selections when navigating between steps
@@ -57,6 +60,18 @@ const Step3 = () => {
     }
   }, [zones]);
 
+  // Recalculate prices when transport or service type changes
+  useEffect(() => {
+    if (formData.arrivalHotel && formData.transport && formData.serviceType) {
+      calculatePrices();
+    }
+  }, [formData.transport, formData.serviceType, formData.arrivalHotel, calculatePrices]);
+
+  // Sync local priceInfo state with formData.priceInfo
+  useEffect(() => {
+    setPriceInfo(formData.priceInfo);
+  }, [formData.priceInfo]);
+
   // Filter hotels based on search term
   const filteredHotels = allHotels.filter(hotel =>
     hotel.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -65,7 +80,7 @@ const Step3 = () => {
   );
 
   // Handle hotel selection change
-  const handleHotelChange = (hotel) => {
+  const handleHotelChange = async (hotel) => {
     setSelectedHotel(hotel.name);
     setIsDropdownOpen(false);
     setSearchTerm("");
@@ -80,6 +95,11 @@ const Step3 = () => {
       setPriceInfo(null);
       updateFormData("priceInfo", null);
       updateFormData("totalPrice", null);
+
+      // Calculate new price if we have all required information
+      if (formData.transport && formData.serviceType) {
+        await calculatePrices();
+      }
     }
   };
 
@@ -251,6 +271,66 @@ const Step3 = () => {
               />
             </div>
           </div>
+
+          {/* Price Information Display - Only show if hotel is selected */}
+          {formData.arrivalHotel && (
+            <div className="bg-primary-50 p-4 sm:p-6 rounded-lg border-2 border-primary">
+              <h3 className="font-bold text-lg mb-4 text-text-primary">
+                Price Information
+              </h3>
+              {loadingStates.prices ? (
+                <div className="text-center py-4">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+                  <p className="text-sm text-gray-600 mt-2">Calculating price...</p>
+                </div>
+              ) : formData.priceInfo ? (
+                <div className="space-y-4">
+                  {/* Consolidated price display */}
+                  <div className="text-center p-4 sm:p-6 bg-white rounded shadow-md">
+                    <div className="mb-3">
+                      <p className="text-sm text-gray-600">
+                        {getVehicleName(formData.transport)} • {getTransferTypeName(formData.serviceType)}
+                      </p>
+                    </div>
+                    
+                    {formData.priceInfo.basePrice !== undefined && (
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-600">Base Price:</span>
+                          <span className="font-semibold">${formData.priceInfo.basePrice}</span>
+                        </div>
+                        
+                        {formData.priceInfo.discount > 0 && (
+                          <div className="flex justify-between items-center text-sm text-green-600">
+                            <span>VIP Discount:</span>
+                            <span>-${formData.priceInfo.basePrice - formData.priceInfo.finalPrice}</span>
+                          </div>
+                        )}
+                        
+                        <hr className="border-gray-200" />
+                        
+                        <div className="pt-2">
+                          <p className="text-lg text-gray-700 font-medium">Total Price</p>
+                          <p className="font-bold text-2xl sm:text-3xl text-primary">
+                            ${formData.priceInfo.finalPrice || formData.totalPrice || 0}
+                          </p>
+                          {formData.isVIPValid && (
+                            <p className="text-sm text-green-600 mt-1">
+                              VIP discount applied!
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-4">
+                  <p className="text-sm text-gray-600">Price information will be calculated once all details are provided.</p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>
