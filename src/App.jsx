@@ -1,11 +1,11 @@
-import MultiStepForm from "./MultiStepForm";
+import MultiStepForm from './MultiStepForm'
 
 function App() {
   return (
     <>
       <MultiStepForm />
     </>
-  );
+  )
 }
 
-export default App;
+export default App
