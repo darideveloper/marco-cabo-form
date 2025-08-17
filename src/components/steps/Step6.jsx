@@ -162,7 +162,7 @@ const Step6 = ({ onSubmit, loading, error }) => {
       </div>
 
       {/* VIP Code Input */}
-      <div className="bg-white p-4 sm:p-6 rounded-lg border border-gray-200">
+      {/* <div className="bg-white p-4 sm:p-6 rounded-lg border border-gray-200">
         <VIPCodeInput
           value={formData.vipCode}
           onChange={(value) => updateFormData("vipCode", value)}
@@ -170,7 +170,7 @@ const Step6 = ({ onSubmit, loading, error }) => {
           isValid={formData.isVIPValid}
           isChecking={false}
         />
-      </div>
+      </div> */}
 
       {/* Price Information Display */}
       <div className="bg-primary-50 p-4 sm:p-6 rounded-lg border-2 border-primary">
