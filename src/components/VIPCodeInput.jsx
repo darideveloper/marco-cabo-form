@@ -48,11 +48,11 @@ const VIPCodeInput = ({ value, onChange, onValidation, isValid, isChecking }) =>
     }
     
     if (isValid) {
-      return "VIP code valid! Total price will be $0.00";
+      return "Promotional code valid! Total price will be $0.00";
     }
     
     if (localValue.length >= 3) {
-      return "Invalid VIP code";
+      return "Invalid promotional code";
     }
     
     return "";
@@ -67,13 +67,13 @@ const VIPCodeInput = ({ value, onChange, onValidation, isValid, isChecking }) =>
   return (
     <div className="space-y-2">
       <label className="block text-sm font-medium text-text-primary">
-        VIP Code (Optional)
+        Promotion Code (Optional)
       </label>
       <div className="flex gap-2">
         <div className="relative flex-1">
           <Input
             type="text"
-            placeholder="Enter VIP code"
+            placeholder="Enter promotion code"
             value={localValue}
             onChange={handleChange}
             className="pr-10"
@@ -101,7 +101,7 @@ const VIPCodeInput = ({ value, onChange, onValidation, isValid, isChecking }) =>
         </p>
       )}
       <p className="text-xs text-gray-500">
-        Enter a valid VIP code to get 100% discount on your booking
+        Please enter a promotional code
       </p>
     </div>
   );
