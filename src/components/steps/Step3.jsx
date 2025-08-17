@@ -89,7 +89,7 @@ const Step3 = () => {
       // Update form data with both hotel and zone information
       updateFormData("arrivalHotel", hotel.name);
       updateFormData("arrivalZone", hotel.zoneId.toString());
-      updateFormData("arrivalLocation", `${hotel.zoneNameClean || hotel.zoneName} - ${hotel.name}`);
+      updateFormData("arrivalLocation", hotel.id);
       
       // Reset price info when hotel changes
       setPriceInfo(null);

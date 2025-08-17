@@ -136,14 +136,14 @@ const useBookingStore = create((set, get) => ({
   calculatePrices: async () => {
     const { formData, setLoading, updateFormData } = get();
     
-    if (!formData.arrivalZone || !formData.transport || !formData.serviceType) {
+    if (!formData.arrivalLocation || !formData.transport || !formData.serviceType) {
       return;
     }
 
     setLoading('prices', true);
     try {
-      console.log('Calculating prices with:', formData.arrivalZone, formData.transport, formData.serviceType);
-      const prices = await getPrices(formData.arrivalZone, formData.transport, formData.serviceType);
+      console.log('Calculating prices with:', formData.arrivalLocation, formData.transport, formData.serviceType);
+      const prices = await getPrices(formData.arrivalLocation, formData.transport, formData.serviceType);
       console.log('API Response:', prices);
 
       if (prices && prices.length > 0) {
