@@ -13,7 +13,8 @@ const Step3 = () => {
     fetchZones,
     calculatePrices,
     getVehicleName,
-    getTransferTypeName
+    getTransferTypeName,
+    setDefaultDateTime
   } = useBookingStore();
 
   // Initialize state from formData to persist selections when navigating between steps
@@ -28,6 +29,11 @@ const Step3 = () => {
   useEffect(() => {
     fetchZones();
   }, [fetchZones]);
+
+  // Set default date and time values when component mounts
+  useEffect(() => {
+    setDefaultDateTime();
+  }, [setDefaultDateTime]);
 
   // Close dropdown when clicking outside
   useEffect(() => {

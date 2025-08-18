@@ -86,6 +86,23 @@ const useBookingStore = create((set, get) => ({
     }));
   },
 
+  // Set default date and time values
+  setDefaultDateTime: () => {
+    const now = new Date();
+    const today = now.toISOString().split('T')[0]; // YYYY-MM-DD format
+    const currentTime = now.toTimeString().slice(0, 5); // HH:MM format
+    
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        arrivalDate: state.formData.arrivalDate || today,
+        arrivalTime: state.formData.arrivalTime || currentTime,
+        departureDate: state.formData.departureDate || today,
+        departureTime: state.formData.departureTime || currentTime,
+      }
+    }));
+  },
+
   setLoading: (key, isLoading) => {
     set((state) => ({
       loadingStates: { ...state.loadingStates, [key]: isLoading }

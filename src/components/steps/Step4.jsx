@@ -1,10 +1,16 @@
 import { Calendar, Clock, Plane } from "lucide-react";
 import Input from "../Input";
 import Label from "../Label";
+import { useEffect } from "react";
 import useBookingStore from "../../store/bookingStore";
 
 const Step4 = () => {
-  const { formData, updateFormData } = useBookingStore();
+  const { formData, updateFormData, setDefaultDateTime } = useBookingStore();
+
+  // Set default date and time values when component mounts
+  useEffect(() => {
+    setDefaultDateTime();
+  }, [setDefaultDateTime]);
 
   return (
     <div className="space-y-6">
