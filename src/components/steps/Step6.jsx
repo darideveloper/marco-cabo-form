@@ -40,8 +40,8 @@ const Step6 = ({ onSubmit, loading, error }) => {
       const result = await submitBookingData();
       
       if (result.success && result.paymentLink) {
-        // Redirect to payment link in a new tab
-        window.open(result.paymentLink, '_self');
+        // Open payment link in new tab
+        window.open(result.paymentLink, '_blank');
         // You can also show a success message or redirect the current tab
         onSubmit(result);
       } else {
