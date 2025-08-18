@@ -261,7 +261,7 @@ const useBookingStore = create((set, get) => ({
       client_email: formData.email,
       client_phone: formData.phone,
       passengers: parseInt(formData.passengers),
-      location: parseInt(formData.arrivalZone),
+      location: parseInt(formData.arrivalLocation),
       arrival_date: formData.arrivalDate,
       arrival_time: formData.arrivalTime,
       arrival_airline: formData.arrivalAirline,
