@@ -18,6 +18,7 @@ const Step6 = ({ onSubmit, loading, error }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const hasCalculatedPrice = useRef(false);
+  const [paymentLink, setPaymentLink] = useState(null);
 
   // Calculate price when component mounts or when price info changes
   useEffect(() => {
@@ -32,18 +33,18 @@ const Step6 = ({ onSubmit, loading, error }) => {
     hasCalculatedPrice.current = false;
   }, [formData.arrivalZone, formData.arrivalHotel, formData.transport, formData.serviceType]);
 
-  const handleSubmit = async () => {
+  const updatePaymentLink = async () => {
     setIsSubmitting(true);
     setSubmitError(null);
     
     try {
+      setIsSubmitting(true);
       const result = await submitBookingData();
       
       if (result.success && result.paymentLink) {
         // Open payment link in new tab
-        window.open(result.paymentLink, '_blank');
-        // You can also show a success message or redirect the current tab
-        onSubmit(result);
+        setPaymentLink(result.paymentLink);
+        console.log(result.paymentLink)
       } else {
         setSubmitError('Payment link not received');
       }
@@ -52,12 +53,18 @@ const Step6 = ({ onSubmit, loading, error }) => {
     } finally {
       setIsSubmitting(false);
     }
+    setIsSubmitting(false);
   };
 
   // Handle VIP code validation
   const handleVIPValidation = async (code) => {
     await validateVIP(code);
   };
+
+  // Load payment link when component mounts and when VIP code changes
+  useEffect(() => {
+    updatePaymentLink();
+  }, [formData.isVIPValid, formData.privacyConsent]);
 
   return (
     <div className="space-y-4 sm:space-y-6">
@@ -265,20 +272,25 @@ const Step6 = ({ onSubmit, loading, error }) => {
         </div>
       </div>
 
-      <Button 
-        onClick={handleSubmit} 
-        className="w-full py-3 text-base sm:text-lg font-semibold"
-        disabled={isSubmitting || loading || !formData.privacyConsent}
+      <a 
+        className={`w-full py-3 text-base sm:text-lg font-semibold text-center bg-primary text-white rounded-md hover:bg-primary-dark transition-colors inline-block ${
+          loading || !formData.privacyConsent || isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+        }`}
+        href={paymentLink}
+        target="_blank"
       >
-        {isSubmitting ? (
-          <div className="flex items-center justify-center">
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-            Submitting...
-          </div>
-        ) : (
-          'Complete Booking'
-        )}
-      </Button>
+
+          {
+            isSubmitting ? (
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                Loading Payment Link...
+              </div>
+            ) : (
+              'Complete Booking'
+            )
+          }
+      </a>
     </div>
   );
 };

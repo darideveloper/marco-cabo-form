@@ -50,7 +50,6 @@ const Step3 = () => {
   // Create a flat list of all hotels with zone information when zones are loaded
   useEffect(() => {
     if (zones.length > 0) {
-      console.log('Zones data:', zones); // Debug: see the actual data structure
       const hotelsList = zones.flatMap(zone => 
         zone.locations.map(hotel => ({
           ...hotel,
@@ -61,7 +60,6 @@ const Step3 = () => {
         }))
       ).sort((a, b) => a.name.localeCompare(b.name));
       
-      console.log('Processed hotels:', hotelsList); // Debug: see processed data
       setAllHotels(hotelsList);
     }
   }, [zones]);

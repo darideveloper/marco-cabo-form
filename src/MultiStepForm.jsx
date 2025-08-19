@@ -38,7 +38,6 @@ const MultiStepForm = () => {
   }
 
   const handleSubmit = () => {
-    console.log('Form submitted:', formData)
     // reset form data
     resetFormData()
     setCurrentStep(1)
@@ -75,7 +74,6 @@ const MultiStepForm = () => {
     // Skip screen 4 if it's one way service
     let currentStepToValidate = currentStep
     if (formData.serviceType == 1 && currentStep == 4) {
-      console.log('One way service, skipping step 4')
       currentStepToValidate = 5
     }
     

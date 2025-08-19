@@ -159,9 +159,7 @@ const useBookingStore = create((set, get) => ({
 
     setLoading('prices', true);
     try {
-      console.log('Calculating prices with:', formData.arrivalLocation, formData.transport, formData.serviceType);
       const prices = await getPrices(formData.arrivalLocation, formData.transport, formData.serviceType);
-      console.log('API Response:', prices);
 
       if (prices && prices.length > 0) {
         // Find the matching price for the selected vehicle and transfer type
@@ -290,7 +288,7 @@ const useBookingStore = create((set, get) => ({
       saleData.departure_airline = formData.departureAirline;
       saleData.departure_flight_number = formData.departureFlightNumber;
     }
-    console.log('Sale data:', saleData);
+
     try {
       const response = await createSale(saleData);
       
